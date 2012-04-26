@@ -138,22 +138,24 @@ In a real-life solution, the business identity providers would expose their auth
 
 1. In the **Solution Explorer** delete the following folders from the web site: 
 
-	- **Account**
+- **Account**
 
-	- **Scripts**          
+- **Scripts**          
 And the following files: 
 
-	- **About.aspx** 
+- **About.aspx** 
 
-	- **Global.asax** 
+- **Global.asax** 
 
 	![Solution Explorer](./images/Solution-Explorer.png?raw=true "Solution Explorer")
   
 	_Solution Explorer_
 
 1. Open the **Site.master** file and remove the **DIV** element with class named **"loginDisplay"** and the **NavigationMenu** menu control.
-	<!-- strike:8-19,21-27 -->
+	
+
 	````ASP.NET
+         <!-- strike:8-19,21-27 -->
 	<div class="page">
 	  <div class="header">
 	    <div class="title">
@@ -161,7 +163,7 @@ And the following files:
 	        My ASP.NET Application
 	      </h1>
 	    </div>   
-<div class="loginDisplay">
+         <div class="loginDisplay">
 	    <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
 	      <AnonymousTemplate>
 	        [ <a href="~/Account/Login.aspx" ID="HeadLoginStatus" runat="server">Log In</a> ]
@@ -169,13 +171,13 @@ And the following files:
 	      <LoggedInTemplate>
 	        Welcome <span class="bold"><asp:LoginName ID="HeadLoginName" runat="server" /></span>!
 	        [ <asp:LoginStatus ID="HeadLoginStatus" runat="server" 
-LogoutAction="Redirect" LogoutText="Log Out" LogoutPageUrl="~/"/> ]
+         LogoutAction="Redirect" LogoutText="Log Out" LogoutPageUrl="~/"/> ]
 	      </LoggedInTemplate>
 	    </asp:LoginView>
 	  </div>
 	  <div class="clear hideSkiplink">
 	    <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" 
-EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
+         EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
 	      <Items>
 	        <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Home"/>
 	        <asp:MenuItem NavigateUrl="~/About.aspx" Text="About"/>
@@ -183,7 +185,8 @@ EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
 	    </asp:Menu> 
 	  </div>
 	</div>
-	````
+	
+         ````
 
 
 1. Open the **Web.config** file and remove the following sections:
