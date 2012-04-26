@@ -1,4 +1,4 @@
-﻿# Tutorial-SQLBandwidthUsage #
+﻿# Access Control Service with local STS #
 
 ## Hands-on Lab ##
 
@@ -6,7 +6,15 @@
 
 Hands-On Labs are sets of step-by-step guides that are designed to help you learn how to use key Windows Azure services and features.  Each Lab provides instructions to guide you through the process of developing a complete application.
 
-In this lab, you will learn how to add Social Gaming features to your applications such as inviting friends using ACS and Social Providers, allow multi-players using both Storage Polling and NodeJs approaches and generate a leaderboard to show the top users' scores.
+In this Hands-On Lab, you will learn how to:
+
+- Use the portal to add business identity providers through their metadata documents
+
+- Use the portal to establish claims transformation rules for normalizing the user's attributes
+
+- Do all of the above via management API
+
+- Outsource authentication of a web application to ACS
 
 > **Note:** You can download the latest build of the Windows Azure Training Kit which includes a tested version of this HOL from here: http://www.microsoft.com/download/en/details.aspx?id=8396.
 
