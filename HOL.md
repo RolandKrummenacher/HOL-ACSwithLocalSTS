@@ -155,7 +155,7 @@ And the following files:
 	
 
 <!-- strike:8-19,21-27 -->	
-````ASP.NET        
+````.NET        
 	<div class="page">
 	  <div class="header">
 	    <div class="title">
@@ -267,27 +267,27 @@ Before being able to use ACS for offloading authentication, you need to let ACS 
 
 1. Click the **Add** link on top of the Relying Party Applications table and fill the form with the following values:
 
-	- **Name:** WebSiteAdvancedACS
+- **Name:** WebSiteAdvancedACS
 
-	- **Mode:** Enter settings manually
+- **Mode:** Enter settings manually
 
-	- **Realm:** https://localhost/WebSiteAdvancedACS/
+- **Realm:** https://localhost/WebSiteAdvancedACS/
 
-	- **Return URL:** https://localhost/WebSiteAdvancedACS/Default.aspx
+- **Return URL:** https://localhost/WebSiteAdvancedACS/Default.aspx
 
-	- **Error URL:** leave the field empty
+- **Error URL:** leave the field empty
 
-	- **Token format:** SAML 1.1
+- **Token format:** SAML 1.1
 
-	- **Token encryption policy:** None
+- **Token encryption policy:** None
 
-	- **Token lifetime (secs):** 600
+- **Token lifetime (secs):** 600
 
-	- **Identity providers:** leave the default (Windows Live ID)
+- **Identity providers:** leave the default (Windows Live ID)
 
-	- **Rule groups:** Create New Rule Group
+- **Rule groups:** Create New Rule Group
 
-	- **Token signing:** Use service namespace certificate (standard)
+- **Token signing:** Use service namespace certificate (standard)
 
 	> **Note:** Those values describe everything ACS needs to know for handling authentication for your application. We'll get in more details later: here we will just say that upon successful authentication ACS sends back to the application a security token  (an artifact such as an XML fragment, a piece of binary or json code, anything as long as it is digitally signed) as proof that successful authentication actually took place. In order to do so, ACS needs to know the address of the application to which the token should be returned to, the desired characteristics of the token it has to create, and so on. 
 
@@ -386,23 +386,23 @@ In this task you will use the portal for configuring ACS to accept users from th
 
 1. Complete the form with the following information: 
 
-	- **Identity Provider Settings**
+- **Identity Provider Settings**
 
-		- Display Name: _SelfSTS1_
+	- Display Name: _SelfSTS1_
 
-		- WS-Federation metadata_:_ Select **File**, and then **Browse** the file  _Source\Assets\SelfSTS1\FederationMetada.xml  in the lab's folder_
+	- WS-Federation metadata_:_ Select **File**, and then **Browse** the file  _Source\Assets\SelfSTS1\FederationMetada.xml  in the lab's folder_
 
-	- **Login Page Settings**
+- **Login Page Settings**
 
-		- Login link text: _SelfSTS1_
+	- Login link text: _SelfSTS1_
 
-		- Image URL:  _(leave blank)_
+	- Image URL:  _(leave blank)_
 
-		- Email domain name(s): _(leave blank)_
+	- Email domain name(s): _(leave blank)_
 
-	- **Used by**
+- **Used by**
 
-		- Relying party applications: _WebSiteAdvancedACS_
+	- Relying party applications: _WebSiteAdvancedACS_
 
   	![Filling information about the first business IP in the ACS portal](./images/Filling-information-about-the-first-business-IP-in-the-ACS-portal.png?raw=true "Filling information about the first business IP in the ACS portal")
  
