@@ -161,8 +161,7 @@ And the following files:
 	      <h1>
 	        My ASP.NET Application
 	      </h1>
-	    </div> 
-          
+	    </div>           
          <div class="loginDisplay">
 	    <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
 	      <AnonymousTemplate>
