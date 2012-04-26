@@ -153,7 +153,7 @@ And the following files:
 
 1. Open the **Site.master** file and remove the **DIV** element with class named **"loginDisplay"** and the **NavigationMenu** menu control.
 
-         <strike>     
+         <!-- strike:8-19,21-27 -->    
 	````HTML     
 	<div class="page">
 	  <div class="header">
@@ -186,7 +186,6 @@ And the following files:
 	  </div>
 	</div>
 	````
-         </strike> 
 
 1. Open the **Web.config** file and remove the following sections:
 
