@@ -1,4 +1,4 @@
-﻿#Access Control Service with local STS#
+#Access Control Service with local STS#
 
 ## Overview ##
 
@@ -141,7 +141,7 @@ In a real-life solution, the business identity providers would expose their auth
 	- **Account**
 
 	- **Scripts**          
-   And the following files: 
+And the following files: 
 
 	- **About.aspx** 
 
@@ -152,8 +152,7 @@ In a real-life solution, the business identity providers would expose their auth
 	_Solution Explorer_
 
 1. Open the **Site.master** file and remove the **DIV** element with class named **"loginDisplay"** and the **NavigationMenu** menu control.
-	
-         <!-- strike:8-19,21-27 -->
+	<!-- strike:8-19,21-27 -->
 	````ASP.NET
 	<div class="page">
 	  <div class="header">
@@ -199,7 +198,7 @@ EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
 
 	- **system.web/roleManager**
 
-   The **Web.config** should look like the code bellow.
+	The **Web.config** should look like the code bellow.
 
 	````XML
 	<?xml version="1.0"?>
@@ -1011,17 +1010,3 @@ By completing this Hands-On Lab you have learned how to:
 The Windows Azure Access Control Service is a great service to outsource authentication to, as it can easily abstract away the complexity of dealing with mutiple business identity providers such as directories enhanced by Active Directory Federation Services or equivalent and even web and social providers such as Windows Live Id, Facebook, Google and Yahoo. Furthermore, ACS offers powerful tools for manipulating the way in which the user's identity is processed before reaching your application.
 
 This intermediate lab gave you a glimpse of the capabilities of ACS applied to classic business access problems such has onboarding new partners, handling authentication from multiple sources and protecting applications from changes and edge cases. Here we focused on Web sites, but ACS can handle just as well SOAP and REST Web services. We focused on business identity providers, but ACS offers comprehensive support for Web identities via easy to use features which perfectly fit with the agility of Web-based solutions. If you are interested in knowing more about those capabilites, please refer to the introductory hands-on lab. Finally, if you are interested in REST solutions, look out for upcoming new labs exploring the OAuth2 features in ACS.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
