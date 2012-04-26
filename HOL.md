@@ -153,8 +153,8 @@ And the following files:
 
 1. Open the **Site.master** file and remove the **DIV** element with class named **"loginDisplay"** and the **NavigationMenu** menu control.
 
-         <!-- strike:8-19,21-27 -->    
-	````HTML     
+	````HTML 
+         <!-- strike:8-19,21-27 -->        
 	<div class="page">
 	  <div class="header">
 	    <div class="title">
