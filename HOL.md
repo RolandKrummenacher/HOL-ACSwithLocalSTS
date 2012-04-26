@@ -153,8 +153,8 @@ And the following files:
 
 1. Open the **Site.master** file and remove the **DIV** element with class named **"loginDisplay"** and the **NavigationMenu** menu control.
 	
-         <!-- strike:8-19,21-27 -->
-	````HTML
+<!-- strike:8-19,21-27 -->
+````HTML
 	<div class="page">
 	  <div class="header">
 	    <div class="title">
@@ -184,7 +184,7 @@ EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
 	    </asp:Menu> 
 	  </div>
 	</div>
-	````
+````
 
 1. Open the **Web.config** file and remove the following sections:
 
