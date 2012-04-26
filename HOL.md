@@ -432,23 +432,23 @@ In this task you will use the portal for configuring ACS to accept users from th
 
 1. Complete the rule with the following values: 
 
-	- **If ...**
+- **If ...**
 
-		- **Claim issuer:** Select _**Identity Provider**,_ and then select _SelfSTS1_ in the dropdown
+	- **Claim issuer:** Select _**Identity Provider**,_ and then select _SelfSTS1_ in the dropdown
 
-		- **Input claim type:** Select _**Select Type**_, and then select _http://selfsts1.com/claims/name_ value in the dropdown
+	- **Input claim type:** Select _**Select Type**_, and then select _http://selfsts1.com/claims/name_ value in the dropdown
 
-		- **Input claim value:** Select _**Any**_ 
+	- **Input claim value:** Select _**Any**_ 
 
-	- **Then** ...
+- **Then** ...
 
-		- **Output claim type:** Select _**Select type**_, and then select _shttp://schemas.xmlsoap.org/ws/2005/05/identity/claims/name_
+	- **Output claim type:** Select _**Select type**_, and then select _shttp://schemas.xmlsoap.org/ws/2005/05/identity/claims/name_
 
-		- **Output claim value:** Select _**Pass through input claim value**_ 
+	- **Output claim value:** Select _**Pass through input claim value**_ 
 
-	- **Rule information**
+- **Rule information**
 
-		-  **Description:** Pass through "name" claim from SelfSTS1 as "name" 
+	-  **Description:** Pass through "name" claim from SelfSTS1 as "name" 
 
   	![Adding name pass through Rule](./images/Adding-name-pass-through-Rule.png?raw=true "Adding name pass through Rule")
  
@@ -953,7 +953,7 @@ CreateIdpManually(DateTime.UtcNow, DateTime.UtcNow.AddYears(1), svc,
 
 	> **Note:** The control we use here is a fast way of obtaining debug information about the incoming security token without having to write any code: however accessing claims information from your code-behind is very easy, please refer to the WIF related hands-on lab in this training kit if you want to know more.
 
-	````ASP.NET
+	````HTML
 	...
 	<cc1:SecurityTokenVisualizerControl ID="SecurityTokenVisualizerControl1" runat="server" />
 	<asp:content/>
