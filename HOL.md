@@ -155,7 +155,7 @@ And the following files:
 	
 
 <!-- strike:8-19,21-27 -->	
-````.NET        
+	````HTML      
 	<div class="page">
 	  <div class="header">
 	    <div class="title">
@@ -185,7 +185,7 @@ And the following files:
 	    </asp:Menu> 
 	  </div>
 	</div>
-````
+	````
 
 
 1. Open the **Web.config** file and remove the following sections:
@@ -200,9 +200,9 @@ And the following files:
 
 - **system.web/roleManager**
 
-The **Web.config** should look like the code bellow.
+         The **Web.config** should look like the code bellow.
 
-	````XML
+	````HTML
 	<?xml version="1.0"?>
 	<!--
 	  For more information on how to configure your ASP.NET application, please visit
@@ -220,7 +220,7 @@ The **Web.config** should look like the code bellow.
 	</configuration>
 	````
 
-> **Note**: All this cleanup is not strictly necessary, but it helps to keep things simple and highlight the code that will be required for integrating with ACS.
+         > **Note**: All this cleanup is not strictly necessary, but it helps to keep things simple and highlight the code that will be required for integrating with ACS.
 
 7. Press **F5** to run the Web site and ensure us that it works as expected. If an alert about **"Debugging Not Enabled"** appears, select **"Modify the Web.config file to enable debugging"** and click **OK**.
 
