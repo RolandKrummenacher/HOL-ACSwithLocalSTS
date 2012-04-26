@@ -153,7 +153,7 @@ And the following files:
 
 1. Open the **Site.master** file and remove the **DIV** element with class named **"loginDisplay"** and the **NavigationMenu** menu control.
 
-	````ASP.NET     
+	````HTML     
 	<div class="page">
 	  <div class="header">
 	    <div class="title">
