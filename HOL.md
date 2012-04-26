@@ -141,7 +141,7 @@ In a real-life solution, the business identity providers would expose their auth
 	- **Account**
 
 	- **Scripts**          
-And the following files: 
+   And the following files: 
 
 	- **About.aspx** 
 
@@ -152,7 +152,8 @@ And the following files:
 	_Solution Explorer_
 
 1. Open the **Site.master** file and remove the **DIV** element with class named **"loginDisplay"** and the **NavigationMenu** menu control.
-	<!-- strike:8-19,21-27 -->
+	
+         <!-- strike:8-19,21-27 -->
 	````ASP.NET
 	<div class="page">
 	  <div class="header">
@@ -198,7 +199,7 @@ EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
 
 	- **system.web/roleManager**
 
-	The **Web.config** should look like the code bellow.
+   The **Web.config** should look like the code bellow.
 
 	````XML
 	<?xml version="1.0"?>
