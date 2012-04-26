@@ -154,8 +154,8 @@ And the following files:
 1. Open the **Site.master** file and remove the **DIV** element with class named **"loginDisplay"** and the **NavigationMenu** menu control.
 	
 
-	````ASP.NET
-         <!-- strike:8-19,21-27 -->
+<!-- strike:8-19,21-27 -->	
+````ASP.NET        
 	<div class="page">
 	  <div class="header">
 	    <div class="title">
@@ -185,23 +185,22 @@ And the following files:
 	    </asp:Menu> 
 	  </div>
 	</div>
-	
-         ````
+````
 
 
 1. Open the **Web.config** file and remove the following sections:
 
-	- **connectionStrings**
+- **connectionStrings**
 
-	- **system.web/authentication**
+- **system.web/authentication**
 
-	- **system.web/membership**
+- **system.web/membership**
 
-	- **system.web/profile**
+- **system.web/profile**
 
-	- **system.web/roleManager**
+- **system.web/roleManager**
 
-	The **Web.config** should look like the code bellow.
+The **Web.config** should look like the code bellow.
 
 	````XML
 	<?xml version="1.0"?>
@@ -221,7 +220,7 @@ And the following files:
 	</configuration>
 	````
 
-	> **Note**: All this cleanup is not strictly necessary, but it helps to keep things simple and highlight the code that will be required for integrating with ACS.
+> **Note**: All this cleanup is not strictly necessary, but it helps to keep things simple and highlight the code that will be required for integrating with ACS.
 
 7. Press **F5** to run the Web site and ensure us that it works as expected. If an alert about **"Debugging Not Enabled"** appears, select **"Modify the Web.config file to enable debugging"** and click **OK**.
 
