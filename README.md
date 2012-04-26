@@ -16,6 +16,8 @@ In this Hands-On Lab, you will learn how to:
 
 - Outsource authentication of a web application to ACS
 
+- Use ACS to handle the home realm discovery problem
+
 > **Note:** You can download the latest build of the Windows Azure Training Kit which includes a tested version of this HOL from here: http://www.microsoft.com/download/en/details.aspx?id=8396.
 
 ### Repository Structure ###
