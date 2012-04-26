@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Lab xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/ContentFramework.Core.Models">
-  <Id>BuildingSocialGames</Id>
+  <Id>ACSwithLocalSTS</Id>
   <Technologies>
     <Technology>Windows Azure</Technology>
   </Technologies>
-  <Author>
+  <Author>Vittorio Bertocci</Author>
     <Blog>
     </Blog>
     <Email>
     </Email>
     <Name>wwegner</Name>
   </Author>
-  <Description>In this lab, you will learn how to add Social Gaming features to your applications such as inviting friends using ACS and Social Providers, allow multi-players using both Storage Polling and NodeJs approaches and generate a leaderboard to show the top users' scores.</Description>  
+  <Description>In this intermediate hands-on lab you will learn how to use the Access Control Service for managing trust relationships with multiple business identity providers. You will learn how to use ACS for establishing relationships and normalizing attributes without having to touch your application's source code. The lab will demonstrate how to configure ACS both via the Windows Azure Portal and the management API.</Description>  
   <Document ConversionType="Html">.\HOL.md</Document>  
-  <Title>Building a Social Game with Windows Azure</Title>
+  <Title>Access Control Service with local STS</Title>
   <Version>2.0.0</Version>
   <Source>.\Source</Source>
   <DependencyChecker>.\source\Setup\Dependencies.depi</DependencyChecker>
   <CustomProperties>
-	<Property Name="GithHubRepository" Value="https://github.com/microsoft-dpe/HOL-BuildingASocialGameWithWindowsAzure" />
+	<Property Name="GithHubRepository" Value="https://github.com/WindowsAzure-TrainingKit/HOL-ACSwithLocalSTS" />
   </CustomProperties>
 </Lab>
