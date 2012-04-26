@@ -153,6 +153,7 @@ And the following files:
 
 1. Open the **Site.master** file and remove the **DIV** element with class named **"loginDisplay"** and the **NavigationMenu** menu control.
 
+         <strike>     
 	````HTML     
 	<div class="page">
 	  <div class="header">
@@ -161,7 +162,7 @@ And the following files:
 	        My ASP.NET Application
 	      </h1>
 	    </div> 
-         <strike>  
+          
          <div class="loginDisplay">
 	    <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
 	      <AnonymousTemplate>
@@ -174,7 +175,6 @@ And the following files:
 	      </LoggedInTemplate>
 	    </asp:LoginView>
 	  </div>
-           </strike> 
 	  <div class="clear hideSkiplink">
 	    <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" 
          EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
@@ -186,7 +186,7 @@ And the following files:
 	  </div>
 	</div>
 	````
-
+         </strike> 
 
 1. Open the **Web.config** file and remove the following sections:
 
