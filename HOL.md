@@ -152,39 +152,8 @@ And the following files:
 	_Solution Explorer_
 
 1. Open the **Site.master** file and remove the **DIV** element with class named **"loginDisplay"** and the **NavigationMenu** menu control.
-	
-<!-- strike:8-19,21-27 -->
-````HTML
-	<div class="page">
-	  <div class="header">
-	    <div class="title">
-	      <h1>
-	        My ASP.NET Application
-	      </h1>
-	    </div>   
-<div class="loginDisplay">
-	    <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
-	      <AnonymousTemplate>
-	        [ <a href="~/Account/Login.aspx" ID="HeadLoginStatus" runat="server">Log In</a> ]
-	      </AnonymousTemplate>
-	      <LoggedInTemplate>
-	        Welcome <span class="bold"><asp:LoginName ID="HeadLoginName" runat="server" /></span>!
-	        [ <asp:LoginStatus ID="HeadLoginStatus" runat="server" 
-LogoutAction="Redirect" LogoutText="Log Out" LogoutPageUrl="~/"/> ]
-	      </LoggedInTemplate>
-	    </asp:LoginView>
-	  </div>
-	  <div class="clear hideSkiplink">
-	    <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" 
-EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
-	      <Items>
-	        <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Home"/>
-	        <asp:MenuItem NavigateUrl="~/About.aspx" Text="About"/>
-	      </Items>
-	    </asp:Menu> 
-	  </div>
-	</div>
-````
+	![For strikethrough in code sections](./images/For-strikethrough-in-code-sections.png?raw=true "For strikethrough in code sections")
+
 
 1. Open the **Web.config** file and remove the following sections:
 
