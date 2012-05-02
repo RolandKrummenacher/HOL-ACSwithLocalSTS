@@ -191,13 +191,13 @@ And the following files:
 
 7\. Press **F5** to run the Web site and ensure us that it works as expected. If an alert about **"Debugging Not Enabled"** appears, select **"Modify the Web.config file to enable debugging"** and click **OK**.
 
- 	!["Debugger Not Enabled" Alert](./images/Debugger-Not-Enabled-Alert.png?raw=true ""Debugger Not Enabled" Alert")
+  !["Debugger Not Enabled" Alert](./images/Debugger-Not-Enabled-Alert.png?raw=true ""Debugger Not Enabled" Alert")
  
-	_"Debugger Not Enabled" Alert_
+  _"Debugger Not Enabled" Alert_
 
- 	![Running the Application](./images/Running-the-Application.png?raw=true "Running the Application")
+  ![Running the Application](./images/Running-the-Application.png?raw=true "Running the Application")
  
-	_Running the Application_
+  _Running the Application_
 
 8\. Close the browser.
 
