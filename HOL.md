@@ -272,9 +272,9 @@ Before being able to use ACS for offloading authentication, you need to let ACS 
 
 10\. Go to **Endpoint Reference** section and copy the value for **WS-Federation Metadata**. You will discover what that is and what it is used for right at the beginning of the next step.
 
- 	![Copying WS-Federation Metadata](./images/Copying-WS-Federation-Metadata.png?raw=true "Copying WS-Federation Metadata")
+	![Copying WS-Federation Metadata](./images/Copying-WS-Federation-Metadata.png?raw=true "Copying WS-Federation Metadata")
  
- 	_Copying WS-Federation Metadata_
+	_Copying WS-Federation Metadata_
  
 #### Task 3 - Configuring a Website to Accept Tokens from Access Control Service ####
 
