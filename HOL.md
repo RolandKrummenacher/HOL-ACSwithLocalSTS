@@ -138,9 +138,9 @@ In a real-life solution, the business identity providers would expose their auth
 
 1. In the **Solution Explorer** delete the following folders from the web site: 
 
-- **Account**
+ - **Account**
 
-- **Scripts**          
+ - **Scripts**          
 And the following files: 
 
 - **About.aspx** 
@@ -151,11 +151,11 @@ And the following files:
   
 	_Solution Explorer_
 
-1. Open the **Site.master** file and remove the **DIV** element with class named **"loginDisplay"** and the **NavigationMenu** menu control.
+5\. Open the **Site.master** file and remove the **DIV** element with class named **"loginDisplay"** and the **NavigationMenu** menu control.
 	![For strikethrough in code sections](./images/For-strikethrough-in-code-sections.png?raw=true "For strikethrough in code sections")
 
 
-1. Open the **Web.config** file and remove the following sections:
+6\. Open the **Web.config** file and remove the following sections:
 
 - **connectionStrings**
 
@@ -189,7 +189,7 @@ And the following files:
 
    > **Note**: All this cleanup is not strictly necessary, but it helps to keep things simple and highlight the code that will be required for integrating with ACS.
 
-7. Press **F5** to run the Web site and ensure us that it works as expected. If an alert about **"Debugging Not Enabled"** appears, select **"Modify the Web.config file to enable debugging"** and click **OK**.
+7\. Press **F5** to run the Web site and ensure us that it works as expected. If an alert about **"Debugging Not Enabled"** appears, select **"Modify the Web.config file to enable debugging"** and click **OK**.
 
  	!["Debugger Not Enabled" Alert](./images/Debugger-Not-Enabled-Alert.png?raw=true ""Debugger Not Enabled" Alert")
  
@@ -199,7 +199,7 @@ And the following files:
  
 	_Running the Application_
 
-1. Close the browser.
+8\. Close the browser.
 
  
 #### Task 2 - Configure one entry for the application in the Access Control Service with the Windows Azure Portal ####
@@ -266,11 +266,11 @@ Before being able to use ACS for offloading authentication, you need to let ACS 
 
 	> **Note:**  The _Realm_ field MUST have the trailing slash or the authentication operations will fail.
 
-1. Click the **Save** button.
+8\. Click the **Save** button.
 
-1. Under the **Development** section of the navigation menu, click the **Application Integration** link. Here there are various URIs that come in handy when configuring your application to take advantage of ACS.
+9\. Under the **Development** section of the navigation menu, click the **Application Integration** link. Here there are various URIs that come in handy when configuring your application to take advantage of ACS.
 
-1. Go to **Endpoint Reference** section and copy the value for **WS-Federation Metadata**. You will discover what that is and what it is used for right at the beginning of the next step.
+10\. Go to **Endpoint Reference** section and copy the value for **WS-Federation Metadata**. You will discover what that is and what it is used for right at the beginning of the next step.
 
  	![Copying WS-Federation Metadata](./images/Copying-WS-Federation-Metadata.png?raw=true "Copying WS-Federation Metadata")
  
@@ -379,9 +379,9 @@ In this task you will use the portal for configuring ACS to accept users from th
 
 	> Below you will learn more details about the STS we are using for simulating business IPs in this lab.
 
-1. Click the **Save** button.
+4\. Click the **Save** button.
 
-1. In the **Trust Relationships** section of the navigation menu, click the **Rule Groups** link in order to select the default rule group for your application.
+5\. In the **Trust Relationships** section of the navigation menu, click the **Rule Groups** link in order to select the default rule group for your application.
 
  	![The current rule groups list contains just the default rule group ](./images/The-current-rule-groups-list-contains-just-the-default-rule-group-.png?raw=true "The current rule groups list contains just the default rule group ")
  
@@ -389,15 +389,15 @@ In this task you will use the portal for configuring ACS to accept users from th
 
 	> **Note**: A very important aspect of security tokens is that they contain claims, attributes describing the authenticated user as asserted by the originating STS. The claims, which can be pretty much anything about the user (name, email, group memberships, privileges, spending limits and so on), provide key information which drive the authentication and authorization process.  ACS provides a rule engine which can process the claims received in the incoming token, and include the resulting transformed claims in the token sent back to the application. Often the claims in the output token will be simple pass-through of the values received from the IP, but in many cases ACS will perform important transformations such as assigning application-specific roles to the incoming user on the basis of, for example, their group memberships in their originating organization. In the steps below you will learn how to set up some simple transformation rules.
 
-1. Click **Default Rule Group for** **WebsiteAdvacedACS**.
+6\. Click **Default Rule Group for** **WebsiteAdvacedACS**.
 
-1. Click the **Add** link. 
+7\. Click the **Add** link. 
 
   	![Add Rule link](./images/Add-Rule-link.png?raw=true "Add Rule link")
  
 	_Add Rule link_
 
-1. Complete the rule with the following values: 
+8\. Complete the rule with the following values: 
 
 - **If ...**
 
@@ -421,9 +421,9 @@ In this task you will use the portal for configuring ACS to accept users from th
  
 	_Adding name pass through Rule_
 
-1. Click the **Save** button.
+9\. Click the **Save** button.
 
-1. Repeat the previous steps to add the following 3 additional rules:
+10\. Repeat the previous steps to add the following 3 additional rules:
 
 	| **Rule 2** |  |
 	| --- | --- |
@@ -455,13 +455,13 @@ In this task you will use the portal for configuring ACS to accept users from th
 	> **Note:** **Note:** The first three rules you have added just pass though the name, group and email claims. Rule #3 and #4 map the group claim from SelfSTS1 the business IP to a role claim in ACS: Administrators and Users roles are map to Gold and Silver roles respectively. This is a great way of keeping your application code untainted from organization-specific considerations. Your application is just concerned about if the current user is silver or gold and enforces access rights accordingly. If the business aspects of the partnership changes, and from now on both Users and Administrator roles should now be awarded the Gold role, all you need to do is change rule 4: there is no need to touch the application code.
 
 
-1. In the **Edit Rule Group** page, verify the rules you have just created and click the **Save** button.
+11\. In the **Edit Rule Group** page, verify the rules you have just created and click the **Save** button.
 
  	![Saving group rules](./images/Saving-group-rules.png?raw=true "Saving group rules")
  
 	_Saving group rules_
 
-1. You have completed the entire configuration for the SelfSTS1 first business IP in ACS and setup your web site to trust ACS. Now you will verify its behavior by running the SelfSTS1. It's time to verify that everything works as expected. To do this,  execute the SelfSTS.exe file located in **\Source\Assets\SelfSTS1**
+12\. You have completed the entire configuration for the SelfSTS1 first business IP in ACS and setup your web site to trust ACS. Now you will verify its behavior by running the SelfSTS1. It's time to verify that everything works as expected. To do this,  execute the SelfSTS.exe file located in **\Source\Assets\SelfSTS1**
 
 	> **Note:**  In realistic settings, the business IP would expose its STS via ADFS2.0. However that would require quite a lot of infrastructure, including Active Directory and a Windows Server machine on which to turn on the necessary server role. However we want you to be able to experiment with this scenario even if all you have available is a standalone PC. To that purpose this hands-on lab uses SelfSTS, a simple utility which exposes a minimal WS-Federation STS endpoint. SelfSTS is just a Windows Forms application, which does not even require a setup and can run on any system where the WIF runtime is available. SelfSTS can be used as a test STS when developing web sites secured with Windows Identity Foundation. You can find more information in SelfSTS MSDN code page. 
 
@@ -471,21 +471,21 @@ In this task you will use the portal for configuring ACS to accept users from th
  
 	_The SelfSTS utility is here used for simulating the first business IP in the scenario_
 
-1. Click the **Start** button:  the SelfSTS endpoint will start listening for requests on the indicated port.
+13\. Click the **Start** button:  the SelfSTS endpoint will start listening for requests on the indicated port.
 
  	![The SelfSTS is now listening for requests on the specified local port](./images/The-SelfSTS-is-now-listening-for-requests-on-the-specified-local-port.png?raw=true "The SelfSTS is now listening for requests on the specified local port")
  
 	_The SelfSTS is now listening for requests on the specified local port_
 
-1. Back to the browser, click the **Relying Party Applications** link under the **Trust Relationships** section.
+14\. Back to the browser, click the **Relying Party Applications** link under the **Trust Relationships** section.
 
-1. Click on **WebSiteAdvancedACS** Relying Party.
+15\. Click on **WebSiteAdvancedACS** Relying Party.
 
  	![The WebSiteAdvancedACS Relying Party configured in ACS](./images/The-WebSiteAdvancedACS-Relying-Party-configured-in-ACS.png?raw=true "The WebSiteAdvancedACS Relying Party configured in ACS")
   
 	_The WebSiteAdvancedACS Relying Party configured in ACS_
 
-1. In the **Edit Relying Party Application** page uncheck the **Windows Live ID** option into the Identity providers list, and click **Save**.
+16\. In the **Edit Relying Party Application** page uncheck the **Windows Live ID** option into the Identity providers list, and click **Save**.
 
  	![Removing Windows Live ID Identity Provider](./images/Removing-Windows-Live-ID-Identity-Provider.png?raw=true "Removing Windows Live ID Identity Provider")
  
@@ -495,11 +495,11 @@ In this task you will use the portal for configuring ACS to accept users from th
 
 	> It is interested to notice that if we'd wish to address scenarios in which users can come both from web IPs (Windows Live ID, Facebook, Google, Yahoo) and business IPs ACS would easily handle that.
 
-1. Back to Visual Studio, press **F5** to run the Web site.	
+17\. Back to Visual Studio, press **F5** to run the Web site.	
 
-1. The relying party application _(https://localhost/WebSiteAdvancedACS/)_ will redirect to the **Access Control Service** to authenticate.
+18\. The relying party application _(https://localhost/WebSiteAdvancedACS/)_ will redirect to the **Access Control Service** to authenticate.
 
-1. Access Control sent to our application the claims it was expecting and we are now authenticated.
+19\. Access Control sent to our application the claims it was expecting and we are now authenticated.
 
  	![User Authenticated](./images/User-Authenticated.png?raw=true "User Authenticated")
  
@@ -509,7 +509,7 @@ In this task you will use the portal for configuring ACS to accept users from th
 
 	> **Note:** In order to keep this hands-on lab simple, we didn't add any code to the Web site which would take advantage of the incoming claims (i.e. giving access to a certain page to gold users but not to others). WIF makes it very easy: if you are interested in learning how to leverage the incoming claims in your application access strategy, please refer to the WIF hands-on labs in this training kit.
 
-1. Close the browser.
+20\. Close the browser.
 
  
  
