@@ -425,32 +425,32 @@ In this task you will use the portal for configuring ACS to accept users from th
 
 10\. Repeat the previous steps to add the following 3 additional rules:
 
-  | **Rule 2** |  |
-  | --- | --- |
-  | **Claim Issuer** | **Identity Provider** - SelfSTS1 |
-  | **(And) Input claim type** | **Select Type** -  http://selfsts1.com/claims/emailaddress |
-  | **(And) Input claim value** | **Any** |
-  | **Output claim type** | **Select Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress |
-  | **Output claim value** | **Pass through input claim value** |
-  | **Description** | Pass through "emailaddress" claim from SelfSTS1 as "emailaddress" |
+| **Rule 2** |  |
+| --- | --- |
+| **Claim Issuer** | **Identity Provider** - SelfSTS1 |
+| **(And) Input claim type** | **Select Type** -  http://selfsts1.com/claims/emailaddress |
+| **(And) Input claim value** | **Any** |
+| **Output claim type** | **Select Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress |
+| **Output claim value** | **Pass through input claim value** |
+| **Description** | Pass through "emailaddress" claim from SelfSTS1 as "emailaddress" |
   
-  | **Rule 3** |  |
-  | --- | --- |
-  | **Claim Issuer** | **Identity Provider** - SelfSTS1 |
-  | **(And) Input claim type** | **Select Type** -  http://selfsts1.com/claims/Group |
-  | **(And) Input claim value** | **Enter value** -  Administrators  |
-  | **Output claim type** | **Enter Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role |
-  | **Output claim value** | **Enter Value** - Gold |
-  | **Description** | Map Gold Rule |
+| **Rule 3** |  |
+| --- | --- |
+| **Claim Issuer** | **Identity Provider** - SelfSTS1 |
+| **(And) Input claim type** | **Select Type** -  http://selfsts1.com/claims/Group |
+| **(And) Input claim value** | **Enter value** -  Administrators  |
+| **Output claim type** | **Enter Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role |
+| **Output claim value** | **Enter Value** - Gold |
+| **Description** | Map Gold Rule |
 
-  | **Rule 4** |   |
-  | --- | --- |
-  | **Claim Issuer** | **Identity Provider** - SelfSTS1 |
-  | **(And) Input claim type** | **Select Type** - http://selfsts1.com/claims/Group |
-  | **(And) Input claim value** | **Enter value**  - Users |
-  | **Output claim type** | **Enter Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role |
-  | **Output claim value** | **Enter Value** - Silver |
-  | **Description** | Map Silver Rule |
+| **Rule 4** |   |
+| --- | --- |
+| **Claim Issuer** | **Identity Provider** - SelfSTS1 |
+| **(And) Input claim type** | **Select Type** - http://selfsts1.com/claims/Group |
+| **(And) Input claim value** | **Enter value**  - Users |
+| **Output claim type** | **Enter Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role |
+| **Output claim value** | **Enter Value** - Silver |
+| **Description** | Map Silver Rule |
 
   > **Note:** **Note:** The first three rules you have added just pass though the name, group and email claims. Rule #3 and #4 map the group claim from SelfSTS1 the business IP to a role claim in ACS: Administrators and Users roles are map to Gold and Silver roles respectively. This is a great way of keeping your application code untainted from organization-specific considerations. Your application is just concerned about if the current user is silver or gold and enforces access rights accordingly. If the business aspects of the partnership changes, and from now on both Users and Administrator roles should now be awarded the Gold role, all you need to do is change rule 4: there is no need to touch the application code.
 
