@@ -383,19 +383,19 @@ In this task you will use the portal for configuring ACS to accept users from th
 
 5\. In the **Trust Relationships** section of the navigation menu, click the **Rule Groups** link in order to select the default rule group for your application.
 
- 	![The current rule groups list contains just the default rule group ](./images/The-current-rule-groups-list-contains-just-the-default-rule-group-.png?raw=true "The current rule groups list contains just the default rule group ")
+  ![The current rule groups list contains just the default rule group ](./images/The-current-rule-groups-list-contains-just-the-default-rule-group-.png?raw=true "The current rule groups list contains just the default rule group ")
  
-	_The current rule groups list contains just the default rule group_
+  _The current rule groups list contains just the default rule group_
 
-	> **Note**: A very important aspect of security tokens is that they contain claims, attributes describing the authenticated user as asserted by the originating STS. The claims, which can be pretty much anything about the user (name, email, group memberships, privileges, spending limits and so on), provide key information which drive the authentication and authorization process.  ACS provides a rule engine which can process the claims received in the incoming token, and include the resulting transformed claims in the token sent back to the application. Often the claims in the output token will be simple pass-through of the values received from the IP, but in many cases ACS will perform important transformations such as assigning application-specific roles to the incoming user on the basis of, for example, their group memberships in their originating organization. In the steps below you will learn how to set up some simple transformation rules.
+  > **Note**: A very important aspect of security tokens is that they contain claims, attributes describing the authenticated user as asserted by the originating STS. The claims, which can be pretty much anything about the user (name, email, group memberships, privileges, spending limits and so on), provide key information which drive the authentication and authorization process.  ACS provides a rule engine which can process the claims received in the incoming token, and include the resulting transformed claims in the token sent back to the application. Often the claims in the output token will be simple pass-through of the values received from the IP, but in many cases ACS will perform important transformations such as assigning application-specific roles to the incoming user on the basis of, for example, their group memberships in their originating organization. In the steps below you will learn how to set up some simple transformation rules.
 
 6\. Click **Default Rule Group for** **WebsiteAdvacedACS**.
 
 7\. Click the **Add** link. 
 
-  	![Add Rule link](./images/Add-Rule-link.png?raw=true "Add Rule link")
+  ![Add Rule link](./images/Add-Rule-link.png?raw=true "Add Rule link")
  
-	_Add Rule link_
+  _Add Rule link_
 
 8\. Complete the rule with the following values: 
 
@@ -425,75 +425,75 @@ In this task you will use the portal for configuring ACS to accept users from th
 
 10\. Repeat the previous steps to add the following 3 additional rules:
 
-	| **Rule 2** |  |
-	| --- | --- |
-	| **Claim Issuer** | **Identity Provider** - SelfSTS1 |
-	| **(And) Input claim type** | **Select Type** -  http://selfsts1.com/claims/emailaddress |
-	| **(And) Input claim value** | **Any** |
-	| **Output claim type** | **Select Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress |
-	| **Output claim value** | **Pass through input claim value** |
-	| **Description** | Pass through "emailaddress" claim from SelfSTS1 as "emailaddress" |
+  | **Rule 2** |  |
+  | --- | --- |
+  | **Claim Issuer** | **Identity Provider** - SelfSTS1 |
+  | **(And) Input claim type** | **Select Type** -  http://selfsts1.com/claims/emailaddress |
+  | **(And) Input claim value** | **Any** |
+  | **Output claim type** | **Select Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress |
+  | **Output claim value** | **Pass through input claim value** |
+  | **Description** | Pass through "emailaddress" claim from SelfSTS1 as "emailaddress" |
+  
+  | **Rule 3** |  |
+  | --- | --- |
+  | **Claim Issuer** | **Identity Provider** - SelfSTS1 |
+  | **(And) Input claim type** | **Select Type** -  http://selfsts1.com/claims/Group |
+  | **(And) Input claim value** | **Enter value** -  Administrators  |
+  | **Output claim type** | **Enter Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role |
+  | **Output claim value** | **Enter Value** - Gold |
+  | **Description** | Map Gold Rule |
 
-	| **Rule 3** |  |
-	| --- | --- |
-	| **Claim Issuer** | **Identity Provider** - SelfSTS1 |
-	| **(And) Input claim type** | **Select Type** -  http://selfsts1.com/claims/Group |
-	| **(And) Input claim value** | **Enter value** -  Administrators  |
-	| **Output claim type** | **Enter Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role |
-	| **Output claim value** | **Enter Value** - Gold |
-	| **Description** | Map Gold Rule |
+  | **Rule 4** |   |
+  | --- | --- |
+  | **Claim Issuer** | **Identity Provider** - SelfSTS1 |
+  | **(And) Input claim type** | **Select Type** - http://selfsts1.com/claims/Group |
+  | **(And) Input claim value** | **Enter value**  - Users |
+  | **Output claim type** | **Enter Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role |
+  | **Output claim value** | **Enter Value** - Silver |
+  | **Description** | Map Silver Rule |
 
-	| **Rule 4** |   |
-	| --- | --- |
-	| **Claim Issuer** | **Identity Provider** - SelfSTS1 |
-	| **(And) Input claim type** | **Select Type** - http://selfsts1.com/claims/Group |
-	| **(And) Input claim value** | **Enter value**  - Users |
-	| **Output claim type** | **Enter Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role |
-	| **Output claim value** | **Enter Value** - Silver |
-	| **Description** | Map Silver Rule |
-
-	> **Note:** **Note:** The first three rules you have added just pass though the name, group and email claims. Rule #3 and #4 map the group claim from SelfSTS1 the business IP to a role claim in ACS: Administrators and Users roles are map to Gold and Silver roles respectively. This is a great way of keeping your application code untainted from organization-specific considerations. Your application is just concerned about if the current user is silver or gold and enforces access rights accordingly. If the business aspects of the partnership changes, and from now on both Users and Administrator roles should now be awarded the Gold role, all you need to do is change rule 4: there is no need to touch the application code.
+  > **Note:** **Note:** The first three rules you have added just pass though the name, group and email claims. Rule #3 and #4 map the group claim from SelfSTS1 the business IP to a role claim in ACS: Administrators and Users roles are map to Gold and Silver roles respectively. This is a great way of keeping your application code untainted from organization-specific considerations. Your application is just concerned about if the current user is silver or gold and enforces access rights accordingly. If the business aspects of the partnership changes, and from now on both Users and Administrator roles should now be awarded the Gold role, all you need to do is change rule 4: there is no need to touch the application code.
 
 
 11\. In the **Edit Rule Group** page, verify the rules you have just created and click the **Save** button.
 
- 	![Saving group rules](./images/Saving-group-rules.png?raw=true "Saving group rules")
+  ![Saving group rules](./images/Saving-group-rules.png?raw=true "Saving group rules")
  
-	_Saving group rules_
+  _Saving group rules_
 
 12\. You have completed the entire configuration for the SelfSTS1 first business IP in ACS and setup your web site to trust ACS. Now you will verify its behavior by running the SelfSTS1. It's time to verify that everything works as expected. To do this,  execute the SelfSTS.exe file located in **\Source\Assets\SelfSTS1**
 
-	> **Note:**  In realistic settings, the business IP would expose its STS via ADFS2.0. However that would require quite a lot of infrastructure, including Active Directory and a Windows Server machine on which to turn on the necessary server role. However we want you to be able to experiment with this scenario even if all you have available is a standalone PC. To that purpose this hands-on lab uses SelfSTS, a simple utility which exposes a minimal WS-Federation STS endpoint. SelfSTS is just a Windows Forms application, which does not even require a setup and can run on any system where the WIF runtime is available. SelfSTS can be used as a test STS when developing web sites secured with Windows Identity Foundation. You can find more information in SelfSTS MSDN code page. 
+  > **Note:**  In realistic settings, the business IP would expose its STS via ADFS2.0. However that would require quite a lot of infrastructure, including Active Directory and a Windows Server machine on which to turn on the necessary server role. However we want you to be able to experiment with this scenario even if all you have available is a standalone PC. To that purpose this hands-on lab uses SelfSTS, a simple utility which exposes a minimal WS-Federation STS endpoint. SelfSTS is just a Windows Forms application, which does not even require a setup and can run on any system where the WIF runtime is available. SelfSTS can be used as a test STS when developing web sites secured with Windows Identity Foundation. You can find more information in SelfSTS MSDN code page. 
 
-	> All the tasks you are required to perform on ACS as application developer in order to configure a business IP are precisely the same you would do if instead of SelfSTS you would be using ADFS2.0.
+  > All the tasks you are required to perform on ACS as application developer in order to configure a business IP are precisely the same you would do if instead of SelfSTS you would be using ADFS2.0.
 
- 	![The SelfSTS utility is here used for simulating the first business IP in the scenario](./images/The-SelfSTS-utility-is-here-used-for-simulating-the-first-business-IP-in-the-scenario.png?raw=true "The SelfSTS utility is here used for simulating the first business IP in the scenario")
+  ![The SelfSTS utility is here used for simulating the first business IP in the scenario](./images/The-SelfSTS-utility-is-here-used-for-simulating-the-first-business-IP-in-the-scenario.png?raw=true "The SelfSTS utility is here used for simulating the first business IP in the scenario")
  
-	_The SelfSTS utility is here used for simulating the first business IP in the scenario_
+  _The SelfSTS utility is here used for simulating the first business IP in the scenario_
 
 13\. Click the **Start** button:  the SelfSTS endpoint will start listening for requests on the indicated port.
 
- 	![The SelfSTS is now listening for requests on the specified local port](./images/The-SelfSTS-is-now-listening-for-requests-on-the-specified-local-port.png?raw=true "The SelfSTS is now listening for requests on the specified local port")
+  ![The SelfSTS is now listening for requests on the specified local port](./images/The-SelfSTS-is-now-listening-for-requests-on-the-specified-local-port.png?raw=true "The SelfSTS is now listening for requests on the specified local port")
  
-	_The SelfSTS is now listening for requests on the specified local port_
+  _The SelfSTS is now listening for requests on the specified local port_
 
 14\. Back to the browser, click the **Relying Party Applications** link under the **Trust Relationships** section.
 
 15\. Click on **WebSiteAdvancedACS** Relying Party.
 
- 	![The WebSiteAdvancedACS Relying Party configured in ACS](./images/The-WebSiteAdvancedACS-Relying-Party-configured-in-ACS.png?raw=true "The WebSiteAdvancedACS Relying Party configured in ACS")
+  ![The WebSiteAdvancedACS Relying Party configured in ACS](./images/The-WebSiteAdvancedACS-Relying-Party-configured-in-ACS.png?raw=true "The WebSiteAdvancedACS Relying Party configured in ACS")
   
-	_The WebSiteAdvancedACS Relying Party configured in ACS_
+  _The WebSiteAdvancedACS Relying Party configured in ACS_
 
 16\. In the **Edit Relying Party Application** page uncheck the **Windows Live ID** option into the Identity providers list, and click **Save**.
 
- 	![Removing Windows Live ID Identity Provider](./images/Removing-Windows-Live-ID-Identity-Provider.png?raw=true "Removing Windows Live ID Identity Provider")
+  ![Removing Windows Live ID Identity Provider](./images/Removing-Windows-Live-ID-Identity-Provider.png?raw=true "Removing Windows Live ID Identity Provider")
  
-	_Removing Windows Live ID Identity Provider_
+  _Removing Windows Live ID Identity Provider_
 
-	> **Note:** Windows Live ID is the IP that ACS adds as the initial choice when you create a Relying Party. For development purposes it is a reasonable default, as it is the only IP for which it is certain that the developer has a relationship with (a Windows Live ID account is needed for signing up for ACS labs and creating a Windows Azure namespace). However in this scenario we are only interested in handling identities from two specific business IPs, hence we are deselecting it.
+  > **Note:** Windows Live ID is the IP that ACS adds as the initial choice when you create a Relying Party. For development purposes it is a reasonable default, as it is the only IP for which it is certain that the developer has a relationship with (a Windows Live ID account is needed for signing up for ACS labs and creating a Windows Azure namespace). However in this scenario we are only interested in handling identities from two specific business IPs, hence we are deselecting it.
 
-	> It is interested to notice that if we'd wish to address scenarios in which users can come both from web IPs (Windows Live ID, Facebook, Google, Yahoo) and business IPs ACS would easily handle that.
+  > It is interested to notice that if we'd wish to address scenarios in which users can come both from web IPs (Windows Live ID, Facebook, Google, Yahoo) and business IPs ACS would easily handle that.
 
 17\. Back to Visual Studio, press **F5** to run the Web site.	
 
