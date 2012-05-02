@@ -234,37 +234,37 @@ Before being able to use ACS for offloading authentication, you need to let ACS 
 
 1. Click the **Add** link on top of the Relying Party Applications table and fill the form with the following values:
 
-	- **Name:** WebSiteAdvancedACS
+  - **Name:** WebSiteAdvancedACS
 
-	- **Mode:** Enter settings manually
+  - **Mode:** Enter settings manually
 
-	- **Realm:** https://localhost/WebSiteAdvancedACS/
+  - **Realm:** https://localhost/WebSiteAdvancedACS/
 
-	- **Return URL:** https://localhost/WebSiteAdvancedACS/Default.aspx
+  - **Return URL:** https://localhost/WebSiteAdvancedACS/Default.aspx
 
-	- **Error URL:** leave the field empty
+  - **Error URL:** leave the field empty
 
-	- **Token format:** SAML 1.1
+  - **Token format:** SAML 1.1
 
-	- **Token encryption policy:** None
+  - **Token encryption policy:** None
 
-	- **Token lifetime (secs):** 600
+  - **Token lifetime (secs):** 600
 
-	- **Identity providers:** leave the default (Windows Live ID)
+  - **Identity providers:** leave the default (Windows Live ID)
 
-	- **Rule groups:** Create New Rule Group
+  - **Rule groups:** Create New Rule Group
 
-	- **Token signing:** Use service namespace certificate (standard)
+  - **Token signing:** Use service namespace certificate (standard)
 
-	> **Note:** Those values describe everything ACS needs to know for handling authentication for your application. We'll get in more details later: here we will just say that upon successful authentication ACS sends back to the application a security token  (an artifact such as an XML fragment, a piece of binary or json code, anything as long as it is digitally signed) as proof that successful authentication actually took place. In order to do so, ACS needs to know the address of the application to which the token should be returned to, the desired characteristics of the token it has to create, and so on. 
+  > **Note:** Those values describe everything ACS needs to know for handling authentication for your application. We'll get in more details later: here we will just say that upon successful authentication ACS sends back to the application a security token  (an artifact such as an XML fragment, a piece of binary or json code, anything as long as it is digitally signed) as proof that successful authentication actually took place. In order to do so, ACS needs to know the address of the application to which the token should be returned to, the desired characteristics of the token it has to create, and so on. 
 
-	> In this lab we will give you the instructions for getting the scenario up and running, but we will not go in great details about the underlying security mechanisms and protocols. If you want to know more about what happens behind the scenes, please refer to the presentations and videos section of the training kit.
+  > In this lab we will give you the instructions for getting the scenario up and running, but we will not go in great details about the underlying security mechanisms and protocols. If you want to know more about what happens behind the scenes, please refer to the presentations and videos section of the training kit.
 
- 	![Add Relying Party Application](./images/Add-Relying-Party-Application.png?raw=true "Add Relying Party Application")
+  ![Add Relying Party Application](./images/Add-Relying-Party-Application.png?raw=true "Add Relying Party Application")
 
-	_Add Relying Party Application_
+  _Add Relying Party Application_
 
-	> **Note:**  The _Realm_ field MUST have the trailing slash or the authentication operations will fail.
+  > **Note:**  The _Realm_ field MUST have the trailing slash or the authentication operations will fail.
 
 8\. Click the **Save** button.
 
@@ -272,9 +272,9 @@ Before being able to use ACS for offloading authentication, you need to let ACS 
 
 10\. Go to **Endpoint Reference** section and copy the value for **WS-Federation Metadata**. You will discover what that is and what it is used for right at the beginning of the next step.
 
-	![Copying WS-Federation Metadata](./images/Copying-WS-Federation-Metadata.png?raw=true "Copying WS-Federation Metadata")
+  ![Copying WS-Federation Metadata](./images/Copying-WS-Federation-Metadata.png?raw=true "Copying WS-Federation Metadata")
  
-	_Copying WS-Federation Metadata_
+  _Copying WS-Federation Metadata_
  
 #### Task 3 - Configuring a Website to Accept Tokens from Access Control Service ####
 
