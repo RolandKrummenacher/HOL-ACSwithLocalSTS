@@ -501,13 +501,13 @@ In this task you will use the portal for configuring ACS to accept users from th
 
 19\. Access Control sent to our application the claims it was expecting and we are now authenticated.
 
- 	![User Authenticated](./images/User-Authenticated.png?raw=true "User Authenticated")
+  ![User Authenticated](./images/User-Authenticated.png?raw=true "User Authenticated")
  
-	_User Authenticated_
+  _User Authenticated_
 
-	> **Note:** If you carefully observe the address bar in your browser as it opens the application, you can see the how the entire redirect sequence takes place: first the Web Site, then the STS, and back to the Web site. If you want to see the flow in more details, you can take advantage of utilities such as Fiddler or the Internet Explorer 9 traffic capture utility.
+  > **Note:** If you carefully observe the address bar in your browser as it opens the application, you can see the how the entire redirect sequence takes place: first the Web Site, then the STS, and back to the Web site. If you want to see the flow in more details, you can take advantage of utilities such as Fiddler or the Internet Explorer 9 traffic capture utility.
 
-	> **Note:** In order to keep this hands-on lab simple, we didn't add any code to the Web site which would take advantage of the incoming claims (i.e. giving access to a certain page to gold users but not to others). WIF makes it very easy: if you are interested in learning how to leverage the incoming claims in your application access strategy, please refer to the WIF hands-on labs in this training kit.
+  > **Note:** In order to keep this hands-on lab simple, we didn't add any code to the Web site which would take advantage of the incoming claims (i.e. giving access to a certain page to gold users but not to others). WIF makes it very easy: if you are interested in learning how to leverage the incoming claims in your application access strategy, please refer to the WIF hands-on labs in this training kit.
 
 20\. Close the browser.
 
