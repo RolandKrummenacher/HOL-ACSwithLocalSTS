@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DependencyCheckerConfiguration version="2.0">
+	<title>Access Control Service with local STS</title>
+	<dependencies>
+		<dependency 
+			hint="Microsoft Visual Studio 2010.*;10.0.30319" 
+			name="Microsoft Visual Studio 2010" 
+			description="Microsoft Visual Studio 2010" 
+			helpLink="wpi://vwd_rtw/" 
+			type="Uninstall" />	
+		<dependency 
+			hint="IIS7" 
+			name="IIS 7 Recommended Configuration" 
+			helpLink="http://www.iis.net/" 
+			type="WebPI" />		
+		<dependency 
+			hint="Windows Identity Foundation SDK 4.0;6.1.7600.16436" 
+			name="Windows Identity Foundation SDK 4.0" 
+			description="The Windows Identity Foundation SDK provides templates for use with Visual Studio and code samples. This download requires the Windows Identity Foundation runtime be present." 
+			helpLink="http://www.microsoft.com/download/en/details.aspx?displaylang=en&amp;id=4451" 
+			type="Uninstall" />
+		<dependency 
+			hint="WIF" 
+			name="Windows Identity Foundation" 
+			helpLink="http://msdn.microsoft.com/en-us/security/aa570351" 
+			type="WebPI" />
+	</dependencies>
+  <setupCommands>
+    <setup 
+		command="setup.cmd" 
+		name="Setup Script" 
+		description="Executing setup scripts..." />
+  </setupCommands>	
+</DependencyCheckerConfiguration>

@@ -1,5 +1,9 @@
+﻿<a name="AccessControlWithLocalSTS"></a>
 #Access Control Service with local STS#
 
+---
+
+<a name="Overview"></a>
 ## Overview ##
 
 Connecting one application to its users is one of the most basic requirements of any solution, whether deployed on-premises, in the cloud or on both.
@@ -16,6 +20,7 @@ Furthermore, ACS offers you greater control over which user attributes should be
 
 In this intermediate hands-on lab you will learn how to use the Access Control Service for managing trust relationships with multiple business identity providers. Users from two different organizations will be able to gain authenticated access to your application; however you will not be required to write any special code for handling the differences between the two. You will learn how to use ACS for establishing relationships and normalizing attributes without having to touch your application's source code. The lab will demonstrate how to configure ACS both via the Windows Azure Portal and the management API.
 
+<a name="Objectives"></a>
 ### Objectives ###
 
 In this Hands-On Lab, you will learn how to:
@@ -30,75 +35,89 @@ In this Hands-On Lab, you will learn how to:
 
 - Use ACS to handle the home realm discovery problem
 
-### System Requirements ###
+<a name="Prerequisites"></a>
+### Prerequisites ###
 
-You must have the following items to complete this lab:
-
-- Microsoft® Windows® Vista SP2 (32-bits or 64-bits) , Microsoft® Windows Server 2008 SP2 (32-bit or 64-bit), Microsoft® Windows Server 2008 R2, or Microsoft® Windows® 7 RTM (32-bits or 64-bits)
+The following is required to complete this hands-on lab:
 
 - IIS 7 (with ASP.NET)
 
-- [Microsoft® .NET Framework 4](http://go.microsoft.com/fwlink/?linkid=186916)
+- [Microsoft .NET Framework 4.0][1]
+- [Microsoft Visual Studio 2010][2]
+- [Microsoft Windows Identity Foundation Runtime][3]
+- [Microsoft Windows Identity Foundation SDK for .NET 4.0][4]
+- Microsoft Windows PowerShell
+- A Windows Azure subscription - you can sign up for free trial [here](http://bit.ly/WindowsAzureFreeTrial)
 
-- [Microsoft® Visual Studio 2010](http://www.microsoft.com/visualstudio/en-us/products/2010-editions)
+[1]:http://go.microsoft.com/fwlink/?linkid=186916
+[2]:http://msdn.microsoft.com/vstudio/products/
+[3]:http://support.microsoft.com/kb/974405
+[4]:http://www.microsoft.com/downloads/details.aspx?FamilyID=c148b2df-c7af-46bb-9162-2c9422208504
 
-- [Microsoft® Windows Identity Foundation Runtime](http://support.microsoft.com/kb/974405)
+>**Note:** This lab was designed to use Windows 7 Operating System. 
 
-- [Microsoft® Windows Identity Foundation SDK for .NET 4.0](http://www.microsoft.com/downloads/details.aspx?FamilyID=c148b2df-c7af-46bb-9162-2c9422208504)
+---
 
-- Microsoft® Windows PowerShell
-
- 
+<a name="Setup"></a>
 ### Setup ###
 
 In order to execute the exercises in this hands-on lab you need to set up your environment.
 
-1. Open a Windows Explorer window and browse to the lab's **Source** folder.
+1. Open a Windows Explorer window and browse to the lab’s **source** folder.
 
-1. Double-click the **Setup.cmd** file in this folder to launch the setup process that will configure your environment and install the Visual Studio code snippets for this lab.
+1. Right-click the **Setup.cmd** and select **Run as administrator** to launch the setup process that will configure your environment and install the Visual Studio code snippets for this lab. This will also install the localhost certificate used by the local STS.
 
 1. If the User Account Control dialog is shown, confirm the action to proceed.
 
-	> **Note:** Make sure you have checked all the dependencies for this lab before running the setup.
+>**Note:** Make sure you have checked all the dependencies for this lab before running the setup.
 
-	> **Note:** If you have never run Visual Studio before on the machine, please make sure to do so before running the setup of this lab.
+>The procedure installs a self-signed certificate to enable the SSL binding. If you already have a certificate with subject name CN=localhost, you must back up the certificate and restore after completing the steps in this guide.
 
-	> **Note:** When you first start Visual Studio, you must select one of the predefined settings collections. Every predefined collection is designed to match a particular development style and determines window layouts, editor behavior, IntelliSense code snippets, and dialog box options. The procedures in this lab describe the actions necessary to accomplish a given task in Visual Studio when using the **General Development Settings** collection. If you choose a different settings collection for your development environment, there may be differences in these procedures that you need to take into account.
-
- 
- 
+<a name="CodeSnippets"> 
 ### Using the Code Snippets ###
 
 Throughout the lab document, you will be instructed to insert code blocks. For your convenience, most of that code is provided as Visual Studio Code Snippets, which you can use from within Visual Studio 2010 to avoid having to add it manually.
 
 If you are not familiar with the Visual Studio Code Snippets, and want to learn how to use them, you can refer to the **Setup.docx** document in the **Assets** folder of the training kit, which contains a section describing how to use them.
 
+---
+
+<a name="Exercises"></a>
 ## Exercises ##
 
 This Hands-On Lab contains one single exercise:
 
-1. Use Access Control Service to Federate with Multiple Business Identity Providers
+1. [Use Access Control Service to Federate with Multiple Business Identity Providers](#Exercise1)
 
- 
-> **Note:** Each exercise is accompanied by a starting solution. These solutions are missing some code sections that are completed through each exercise and therefore will not work if running them directly.
-
-> Inside each exercise you will also find an **end** folder where you find the resulting solution you should obtain after completing the exercises. You can use this solution as a guide if you need additional help working through the exercises.
+> **Note:** Each exercise is accompanied by a starting solution located in the Begin folder of the exercise that allows you to follow each exercise independently of the others. Please be aware that the code snippets that are added during an exercise are missing from these starting solutions and that they will not necessarily work until you complete the exercise. Inside the source code for an exercise, you will also find an End folder containing a Visual Studio solution with the code that result from completing the steps in the corresponding exercise. You can use these solutions as guidance if you need additional help as you work through this hands-on lab.
 
 Estimated time to complete this lab: **30 minutes** 
 
-## Getting Started: Creating a Service Namespace ##
+<a name="GettingStarted"></a>
+### Getting Started: Creating a Service Namespace ###
 
 To follow this lab and complete all the exercises you first need to create a Windows Azure Service Namespace. Once completed, it can be used for all of the Access Control labs and for your own projects as well.
 
+<a name="GettingStartedTask1"></a>
 #### Task 1 - Creating your Service Namespace ####
 
-1. Navigate to [https://windows.azure.com/](https://windows.azure.com/). You will be prompted for your Windows Live ID credentials if you are not already signed in. 
+1. Navigate to [https://manage.windowsazure.com/](https://manage.windowsazure.com/). You will be prompted for your Microsoft account credentials if you are not already signed in. 
 
-1. Go to **Service Bus, Access Control & Caching**, located under the navigation pane.
+	![Windows Azure Login Page](images/windows-azure-login-page.png?raw=true "Windows Azure Login Page")
+
+	_Windows Azure Login Page_
+
+1. To use Access Control, you need to access the previous management portal version. In order to do this, hover the mouse pointer over **Preview** in the main page header and click **Take me to the previous portal**.
+
+	![Switching to the previous portal](images/switch-to-previous-portal.png?raw=true "Switching to the previous portal")
+
+	_Switching to the previous portal_
+
+1. Once in the previous portal, select **Service Bus, Access Control & Caching**, located under the navigation pane.
 
 1. Select the **Access Control** item on the Navigation pane.
 
-1. Now you will add a **new Access Control Service Namespace**. An Access Control Service Namespace is the unique component of the addresses at which all your endpoints on the Access Control Service will be available. To do this, click the **New** button on the top left corner.
+1. Now you will add a **new Access Control Service Namespace**. An Access Control Service Namespace is the unique component of the addresses at which all your endpoints on the Access Control Service will be available. To do this, click **New** on the top left corner.
 
  	![Add Namespace](./images/Add-Namespace.png?raw=true "Add Namespace")
  
@@ -116,6 +135,7 @@ To follow this lab and complete all the exercises you first need to create a Win
  
  	_Active Service Namespace_
  
+<a name="Exercise1"></a>
 ### Exercise 1: Use ACS to Federate with Multiple Business Identity Providers ###
 
 In this exercise you are going to outsource to ACS the authentication part of a newly created web site. You will configure ACS to delegate authentication to two different business identity providers, using both the portal and the management API. If you already went through the introductory hands-on lab, you will discover that the steps you need to follow are consistent with what you had to do for using web identity providers.
@@ -124,6 +144,7 @@ In a real-life solution, the business identity providers would expose their auth
 
 > **Note:** You require a Windows Azure Service Namespace to complete this exercise. If you have not already done so, complete the section Getting Started: Creating a Service Namespace.
 
+<a name="Ex1Task1"></a>
 #### Task 1 - Creating the Initial Solution ####
 
 1. Open Microsoft Visual Studio 2010 with administrator privileges. From **Start | All Programs | Microsoft Visual Studio 2010**, right-click **Microsoft Visual Studio 2010** and select **Run as administrator**.
@@ -136,38 +157,73 @@ In a real-life solution, the business identity providers would expose their auth
  
 	_Add New Web Site_
 
-1. In the **Solution Explorer** delete the following folders from the web site: 
+1. In the **Solution Explorer** delete the following folders from the web site:
+	
+	-**Account**
+	
+	-**Scripts**
 
- - **Account**
+1. And delete the following files:
 
- - **Scripts**          
-And the following files: 
+	-**About.aspx**
 
-- **About.aspx** 
+	-**Global.asax**
+ 
 
-- **Global.asax** 
+1. Your Solution should look like the following one:
 
 	![Solution Explorer](./images/Solution-Explorer.png?raw=true "Solution Explorer")
-  
+
 	_Solution Explorer_
 
-5\. Open the **Site.master** file and remove the **DIV** element with class named **"loginDisplay"** and the **NavigationMenu** menu control.
-	![For strikethrough in code sections](./images/For-strikethrough-in-code-sections.png?raw=true "For strikethrough in code sections")
+1. Open the **Site.master** file and remove the **DIV** element with class named **"loginDisplay"** and the **NavigationMenu** menu control.
 
+	<!-- strike:9-19,21-26 -->
+	````HTML
+	...
+    <div class="page">
+        <div class="header">
+            <div class="title">
+                <h1>
+                    My ASP.NET Application
+                </h1>
+            </div>
+            <div class="loginDisplay">
+                <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
+                    <AnonymousTemplate>
+                        [ <a href="~/Account/Login.aspx" ID="HeadLoginStatus" runat="server">Log In</a> ]
+                    </AnonymousTemplate>
+                    <LoggedInTemplate>
+                        Welcome <span class="bold"><asp:LoginName ID="HeadLoginName" runat="server" /></span>!
+                        [ <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Redirect" LogoutText="Log Out" LogoutPageUrl="~/"/> ]
+                    </LoggedInTemplate>
+                </asp:LoginView>
+            </div>
+            <div class="clear hideSkiplink">
+                <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
+                    <Items>
+                        <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Home"/>
+                        <asp:MenuItem NavigateUrl="~/About.aspx" Text="About"/>
+                    </Items>
+                </asp:Menu>
+            </div>
+        </div>
+	...
+	````
 
-6\. Open the **Web.config** file and remove the following sections:
+1. Open the **Web.config** file and remove the following sections:
 
-- **connectionStrings**
+	-**connectionStrings**
 
-- **system.web/authentication**
+	-**system.web/authentication**
 
-- **system.web/membership**
+	-**system.web/membership**
 
-- **system.web/profile**
+	-**system.web/profile**
 
-- **system.web/roleManager**
+	-**system.web/roleManager**
 
-   The **Web.config** should look like the code bellow.
+	The **Web.config** should look like the code bellow.
 
 	````XML
 	<?xml version="1.0"?>
@@ -187,40 +243,46 @@ And the following files:
 	</configuration>
 	````
 
-   > **Note**: All this cleanup is not strictly necessary, but it helps to keep things simple and highlight the code that will be required for integrating with ACS.
+	> **Note**: All this cleanup is not strictly necessary, but it helps to keep things simple and highlight the code that will be required for integrating with ACS.
 
-7\. Press **F5** to run the Web site and ensure us that it works as expected. If an alert about **"Debugging Not Enabled"** appears, select **"Modify the Web.config file to enable debugging"** and click **OK**.
+1. Press **F5** to run the Web site and ensure us that it works as expected. If an alert about **"Debugging Not Enabled"** appears, select **"Modify the Web.config file to enable debugging"** and click **OK**.
 
-  !["Debugger Not Enabled" Alert](./images/Debugger-Not-Enabled-Alert.png?raw=true ""Debugger Not Enabled" Alert")
+	!["Debugger Not Enabled" Alert](./images/Debugger-Not-Enabled-Alert.png?raw=true ""Debugger Not Enabled" Alert")
  
-  _"Debugger Not Enabled" Alert_
+	_"Debugger Not Enabled" Alert_
 
-  ![Running the Application](./images/Running-the-Application.png?raw=true "Running the Application")
+	![Running the Application](./images/Running-the-Application.png?raw=true "Running the Application")
  
-  _Running the Application_
+	_Running the Application_
 
-8\. Close the browser.
+1. Close the browser.
 
- 
+<a name="Ex1Task2"></a>
 #### Task 2 - Configure one entry for the application in the Access Control Service with the Windows Azure Portal ####
 
 Before being able to use ACS for offloading authentication, you need to let ACS know about your application. You can easily do this by working on your Windows Azure namespace via management portal.
 
-1. Navigate to [https://windows.azure.com/](https://windows.azure.com/). You will be prompted for your Windows Live ID credentials if you are not already signed in. 
+1. Navigate to [https://manage.windowsazure.com/](https://manage.windowsazure.com/). You will be prompted for your Microsoft account credentials if you are not already signed in. 
 
-1. Go to **Service Bus, Access Control & Caching**, located under the navigation pane.
+1. To use Access Control, you need to access the previous management portal version. In order to do this, hover the mouse pointer over **Preview** in the main page header and click **Take me to the previous portal**.
+
+	![Switching to the previous portal](images/switch-to-previous-portal.png?raw=true "Switching to the previous portal")
+
+	_Switching to the previous portal_
+
+1. Once in the previous portal, go to **Service Bus, Access Control & Caching**, located under the navigation pane.
 
 1. Select the **Access Control** item on the Navigation pane.
 
-1. With the **Namespace** selected, click the **Access Control Service** button on the top toolbar. Make sure that appservices.azure.com is allowed to show popups in your browser. 
+1. With the **Namespace** selected, click **Access Control Service** on the top toolbar. Make sure that appservices.azure.com is allowed to show popups in your browser. 
 
- 	![Click the Access Control Service - Manage button](./images/Click-the-Access-Control-Service--Manage-button.png?raw=true "Click the Access Control Service - Manage button")
- 
-	_Click the Access Control Service - Manage button_
+	![Click the Access Control Service - Manage button](./images/Click-the-Access-Control-Service--Manage-button.png?raw=true "Click the Access Control Service - Manage button")
+
+	_Click Access Control Service - Manage_
 
 1. This launches (in another browser window or tab) **the Access Control Service Management Portal**, shown in the figure below. 
 
- 	![Access Control Service Management Portal](./images/Access-Control-Service-Management-Portal.png?raw=true "Access Control Service Management Portal")
+	![Access Control Service Management Portal](./images/Access-Control-Service-Management-Portal.png?raw=true "Access Control Service Management Portal")
  
 	_Access Control Service Management Portal_
 
@@ -228,54 +290,48 @@ Before being able to use ACS for offloading authentication, you need to let ACS 
 
 1. Click the **Relying Party Applications** link on the navigation menu in order to register your Web site with ACS. "Relying Party" is identity speak for application, the entity which consumes identities, whereas as you already guessed "Identity Provider" indicates one entity which stores identities and is capable of authenticating users.
 
- 	![Identity Providers configured](./images/Identity-Providers-configured.png?raw=true "Identity Providers configured")
- 
+	![Identity Providers configured](./images/Identity-Providers-configured.png?raw=true "Identity Providers configured")
+
 	_Identity Providers configured_
 
 1. Click the **Add** link on top of the Relying Party Applications table and fill the form with the following values:
 
-  - **Name:** WebSiteAdvancedACS
+	
+	-**Name:** WebSiteAdvancedACS
+	-**Mode:** Enter settings manually
+	-**Realm:** https://localhost/WebSiteAdvancedACS/
+	-**Return URL:** https://localhost/WebSiteAdvancedACS/Default.aspx
+	-**Error URL:** leave the field empty
+	-**Token format:** SAML 1.1
+	-**Token encryption policy:** None
+	-**Token lifetime (secs):** 600
+	-**Identity providers:** leave the default (Windows Live ID)
+	-**Rule groups:** Create New Rule Group
+	-**Token signing:** Use service namespace certificate (standard)
 
-  - **Mode:** Enter settings manually
 
-  - **Realm:** https://localhost/WebSiteAdvancedACS/
+	> **Note:** Those values describe everything ACS needs to know for handling authentication for your application. We'll get in more details later: here we will just say that upon successful authentication ACS sends back to the application a security token  (an artifact such as an XML fragment, a piece of binary or json code, anything as long as it is digitally signed) as proof that successful authentication actually took place. In order to do so, ACS needs to know the address of the application to which the token should be returned to, the desired characteristics of the token it has to create, and so on. 
 
-  - **Return URL:** https://localhost/WebSiteAdvancedACS/Default.aspx
 
-  - **Error URL:** leave the field empty
+	In this lab we will give you the instructions for getting the scenario up and running, but we will not go in great details about the underlying security mechanisms and protocols. If you want to know more about what happens behind the scenes, please refer to the presentations and videos section of the training kit.
 
-  - **Token format:** SAML 1.1
+	![Add Relying Party Application](./images/Add-Relying-Party-Application.png?raw=true "Add Relying Party Application")
+	
+	_Add Relying Party Application_
+	
+	> **Note:**  The _Realm_ field MUST have the trailing slash or the authentication operations will fail.
 
-  - **Token encryption policy:** None
+1. Click **Save**.
 
-  - **Token lifetime (secs):** 600
+1. Under the **Development** section of the navigation menu, click the **Application Integration** link. Here there are various URIs that come in handy when configuring your application to take advantage of ACS.
 
-  - **Identity providers:** leave the default (Windows Live ID)
+1. Go to **Endpoint Reference** section and copy the value for **WS-Federation Metadata**. You will discover what that is and what it is used for right at the beginning of the next step.
 
-  - **Rule groups:** Create New Rule Group
-
-  - **Token signing:** Use service namespace certificate (standard)
-
-  > **Note:** Those values describe everything ACS needs to know for handling authentication for your application. We'll get in more details later: here we will just say that upon successful authentication ACS sends back to the application a security token  (an artifact such as an XML fragment, a piece of binary or json code, anything as long as it is digitally signed) as proof that successful authentication actually took place. In order to do so, ACS needs to know the address of the application to which the token should be returned to, the desired characteristics of the token it has to create, and so on. 
-
-  > In this lab we will give you the instructions for getting the scenario up and running, but we will not go in great details about the underlying security mechanisms and protocols. If you want to know more about what happens behind the scenes, please refer to the presentations and videos section of the training kit.
-
-  ![Add Relying Party Application](./images/Add-Relying-Party-Application.png?raw=true "Add Relying Party Application")
-
-  _Add Relying Party Application_
-
-  > **Note:**  The _Realm_ field MUST have the trailing slash or the authentication operations will fail.
-
-8\. Click the **Save** button.
-
-9\. Under the **Development** section of the navigation menu, click the **Application Integration** link. Here there are various URIs that come in handy when configuring your application to take advantage of ACS.
-
-10\. Go to **Endpoint Reference** section and copy the value for **WS-Federation Metadata**. You will discover what that is and what it is used for right at the beginning of the next step.
-
-  ![Copying WS-Federation Metadata](./images/Copying-WS-Federation-Metadata.png?raw=true "Copying WS-Federation Metadata")
+	![Copying WS-Federation Metadata](./images/Copying-WS-Federation-Metadata.png?raw=true "Copying WS-Federation Metadata")
  
-  _Copying WS-Federation Metadata_
- 
+	_Copying WS-Federation Metadata_
+
+<a name="Ex1Task3"></a>
 #### Task 3 - Configuring a Website to Accept Tokens from Access Control Service ####
 
 For a web application, outsourcing authentication ACS means forwarding every request from unauthenticated users to ACS. ACS will do something for making authentication happen (details below), and as we have seen above the result will be a security token. All those redirects are usually done according to specific protocols, which are platform and vendor-independent.
@@ -290,31 +346,31 @@ In this task you will use the WIF wizard to outsource authentication to ACS.
 
 	1. On the **Welcome** page click **Next** to continue using the pre-populated fields.
 
- 		![Federation Utility Wizard](./images/Federation-Utility-Wizard.png?raw=true "Federation Utility Wizard")
+		![Federation Utility Wizard](./images/Federation-Utility-Wizard.png?raw=true "Federation Utility Wizard")
  
 		_Federation Utility Wizard_
 
 	1. On the **Security Token Service** page select **Use an existing STS**, and paste the endpoint taken from **Task 2 - Step 10** in the **Use an existing STS** field and click **Next**. That endpoint serves the document describing the WS-Federation STS that ACS exposes in your Windows Azure namespace.
 
-  		![Use an Existing STS option](./images/Use-an-Existing-STS-option.png?raw=true "Use an Existing STS option")
+		![Use an Existing STS option](./images/Use-an-Existing-STS-option.png?raw=true "Use an Existing STS option")
  
 		_Use an Existing STS option_
 
 	1. On the **STS signing certificate chain validation error** page select **Disable certificate chain validation** and click **Next**.
 
- 		![Disable certificate chain validation option](./images/Disable-certificate-chain-validation-option.png?raw=true "Disable certificate chain validation option")
+		![Disable certificate chain validation option](./images/Disable-certificate-chain-validation-option.png?raw=true "Disable certificate chain validation option")
  
 		_Disable certificate chain validation option_
 
-	1.  On the **Security token encryption** page select **No encryption** and click **Next**.
+	1. On the **Security token encryption** page select **No encryption** and click **Next**.
 
- 		![Security Token encryption](./images/Security-Token-encryption.png?raw=true "Security Token encryption")
+		![Security Token encryption](./images/Security-Token-encryption.png?raw=true "Security Token encryption")
  
 		_Security Token encryption_
 
 	1. On the **Offered claims** page click **Next**.
 
- 		![Offered Claims](./images/Offered-Claims.png?raw=true "Offered Claims")
+		![Offered Claims](./images/Offered-Claims.png?raw=true "Offered Claims")
  
 		_Offered Claims_
 
@@ -322,12 +378,12 @@ In this task you will use the WIF wizard to outsource authentication to ACS.
 
 	1. On the **Summary** page review the changes that will be made and click **Finish**.
 
- 
+<a name="Ex1Task4"></a>
 #### Task 4 - Use the ACS Management Portal to Trust a Business Identity Provider and Process User Attributes via Claims Mapping Rules ####
 
- ![ACS does not directly authenticate users, but it brokers authentication between your application and ](./images/ACS-does-not-directly-authenticate-users,-but-it-brokers-authentication-between-your-application-and-.png?raw=true "ACS does not directly authenticate users, but it brokers authentication between your application and ")
+![ACS does not directly authenticate users, but it brokers authentication between your application and ](./images/ACS-does-not-directly-authenticate-users,-but-it-brokers-authentication-between-your-application-and-.png?raw=true "ACS does not directly authenticate users, but it brokers authentication between your application and ")
  
- _ACS does not directly authenticate users, but it brokers authentication between your application and multiple providers. The picture shows a simplified authentication flow, which will be described in the following tasks_
+_ACS does not directly authenticate users, but it brokers authentication between your application and multiple providers. The picture shows a simplified authentication flow, which will be described in the following tasks_
 
 ACS does not directly authenticate users: in the most common cases it does not maintain credentials such as username and password, but it rather brokers authentication between your application and other providers. Let's say that you are developing an inventory application for your warehouse, and two partner companies need to have access to it in order to sell your goods. You want the employees of those two partners to have authenticated access to your application, but you don't want to manage their identities. Here's where ACS comes to the rescue: assuming that those companies expose their own STSs as well, ACS will simply take care to redirect unauthenticated requests to one or the other, process the resulting token and send back a new authentication token to your application. That way, users never have to disclose their credentials outside of their own infrastructure and you never have to manage credentials you don't own. Organizations which expose via STS their capability of authenticating users are called Identity Providers (IP for short).
 
@@ -335,14 +391,14 @@ In this task you will use the portal for configuring ACS to accept users from th
 
 1. Back to the browser, click the **Identity Providers** link in the **Trust Relationships** section of the menu. The main area of the management portal will display a page which helps you to manage the identity providers from where your application users will come from.
 
-  	![Identity Providers](./images/Identity-Providers.png?raw=true "Identity Providers")
- 
+	![Identity Providers](./images/Identity-Providers.png?raw=true "Identity Providers")
+
 	_Identity Providers_
 
 1. Click the **Add** link above the Identity Providers table, choose **WS-Federation identity provider** and click **Next**.  
 
- 	![Adding Identity Provider](./images/Adding-Identity-Provider.png?raw=true "Adding Identity Provider")
- 
+	![Adding Identity Provider](./images/Adding-Identity-Provider.png?raw=true "Adding Identity Provider")
+
 	_Adding Identity Provider_
 
 	> **Note:** ACS is able to broker authentication with many different types of identity providers. Web IPs such as Windows Live ID, Google, Yahoo and Facebook are all services available on the public internet, defined by the address of their STS (or equivalent), the set of attributes (claims) they share about their users and the authentication protocol they use.
@@ -353,25 +409,25 @@ In this task you will use the portal for configuring ACS to accept users from th
 
 1. Complete the form with the following information: 
 
-- **Identity Provider Settings**
+	-**Identity Provider Settings**
 
-	- Display Name: _SelfSTS1_
+	-Display Name: _SelfSTS1_
 
-	- WS-Federation metadata_:_ Select **File**, and then **Browse** the file  _Source\Assets\SelfSTS1\FederationMetada.xml  in the lab's folder_
+	-WS-Federation metadata_:_ Select **File**, and then **Browse** the file  _Source\Assets\SelfSTS1\FederationMetada.xml  in the lab's folder_
 
-- **Login Page Settings**
+	-**Login Page Settings**
 
-	- Login link text: _SelfSTS1_
+	-Login link text: _SelfSTS1_
 
-	- Image URL:  _(leave blank)_
+	-Image URL:  _(leave blank)_
 
-	- Email domain name(s): _(leave blank)_
+	-Email domain name(s): _(leave blank)_
 
-- **Used by**
+	-**Used by**
 
-	- Relying party applications: _WebSiteAdvancedACS_
+	-Relying party applications: _WebSiteAdvancedACS_
 
-  	![Filling information about the first business IP in the ACS portal](./images/Filling-information-about-the-first-business-IP-in-the-ACS-portal.png?raw=true "Filling information about the first business IP in the ACS portal")
+	![Filling information about the first business IP in the ACS portal](./images/Filling-information-about-the-first-business-IP-in-the-ACS-portal.png?raw=true "Filling information about the first business IP in the ACS portal")
  
 	_Filling information about the first business IP in the ACS portal_
 
@@ -379,140 +435,138 @@ In this task you will use the portal for configuring ACS to accept users from th
 
 	> Below you will learn more details about the STS we are using for simulating business IPs in this lab.
 
-4\. Click the **Save** button.
+1. Click **Save**.
 
-5\. In the **Trust Relationships** section of the navigation menu, click the **Rule Groups** link in order to select the default rule group for your application.
+1. In the **Trust Relationships** section of the navigation menu, click the **Rule Groups** link in order to select the default rule group for your application.
 
-  ![The current rule groups list contains just the default rule group ](./images/The-current-rule-groups-list-contains-just-the-default-rule-group-.png?raw=true "The current rule groups list contains just the default rule group ")
+	![The current rule groups list contains just the default rule group ](./images/The-current-rule-groups-list-contains-just-the-default-rule-group-.png?raw=true "The current rule groups list contains just the default rule group ")
  
-  _The current rule groups list contains just the default rule group_
+	_The current rule groups list contains just the default rule group_
 
-  > **Note**: A very important aspect of security tokens is that they contain claims, attributes describing the authenticated user as asserted by the originating STS. The claims, which can be pretty much anything about the user (name, email, group memberships, privileges, spending limits and so on), provide key information which drive the authentication and authorization process.  ACS provides a rule engine which can process the claims received in the incoming token, and include the resulting transformed claims in the token sent back to the application. Often the claims in the output token will be simple pass-through of the values received from the IP, but in many cases ACS will perform important transformations such as assigning application-specific roles to the incoming user on the basis of, for example, their group memberships in their originating organization. In the steps below you will learn how to set up some simple transformation rules.
+	> **Note**: A very important aspect of security tokens is that they contain claims, attributes describing the authenticated user as asserted by the originating STS. The claims, which can be pretty much anything about the user (name, email, group memberships, privileges, spending limits and so on), provide key information which drive the authentication and authorization process.  ACS provides a rule engine which can process the claims received in the incoming token, and include the resulting transformed claims in the token sent back to the application. Often the claims in the output token will be simple pass-through of the values received from the IP, but in many cases ACS will perform important transformations such as assigning application-specific roles to the incoming user on the basis of, for example, their group memberships in their originating organization. In the steps below you will learn how to set up some simple transformation rules.
 
-6\. Click **Default Rule Group for** **WebsiteAdvacedACS**.
+1. Click **Default Rule Group for** **WebsiteAdvacedACS**.
 
-7\. Click the **Add** link. 
+1. Click the **Add** link.
 
-  ![Add Rule link](./images/Add-Rule-link.png?raw=true "Add Rule link")
- 
-  _Add Rule link_
+	![Add Rule link](./images/Add-Rule-link.png?raw=true "Add Rule link")
 
-8\. Complete the rule with the following values: 
+	_Add Rule link_
 
-- **If ...**
+1. Complete the rule with the following values:
 
-	- **Claim issuer:** Select _**Identity Provider**,_ and then select _SelfSTS1_ in the dropdown
+	-**If ...**
 
-	- **Input claim type:** Select _**Select Type**_, and then select _http://selfsts1.com/claims/name_ value in the dropdown
+	-**Claim issuer:** Select _**Identity Provider**,_ and then select _SelfSTS1_ in the dropdown
 
-	- **Input claim value:** Select _**Any**_ 
+	-**Input claim type:** Select _**Select Type**_, and then select _http://selfsts1.com/claims/name_ value in the dropdown
 
-- **Then** ...
+	-**Input claim value:** Select _**Any**_
 
-	- **Output claim type:** Select _**Select type**_, and then select _shttp://schemas.xmlsoap.org/ws/2005/05/identity/claims/name_
+	-**Then** ...
 
-	- **Output claim value:** Select _**Pass through input claim value**_ 
+	-**Output claim type:** Select _**Select type**_, and then select _shttp://schemas.xmlsoap.org/ws/2005/05/identity/claims/name_
 
-- **Rule information**
+	-**Output claim value:** Select _**Pass through input claim value**_
 
-	-  **Description:** Pass through "name" claim from SelfSTS1 as "name" 
+	-**Rule information**
 
-  	![Adding name pass through Rule](./images/Adding-name-pass-through-Rule.png?raw=true "Adding name pass through Rule")
+	-**Description:** Pass through "name" claim from SelfSTS1 as "name"
+
+	![Adding name pass through Rule](./images/Adding-name-pass-through-Rule.png?raw=true "Adding name pass through Rule")
  
 	_Adding name pass through Rule_
 
-9\. Click the **Save** button.
+1. Click **Save**.
 
-10\. Repeat the previous steps to add the following 3 additional rules:
+1. Repeat the previous steps to add the following 3 additional rules:
 
-| **Rule 2** |  |
-| --- | --- |
-| **Claim Issuer** | **Identity Provider** - SelfSTS1 |
-| **(And) Input claim type** | **Select Type** -  http://selfsts1.com/claims/emailaddress |
-| **(And) Input claim value** | **Any** |
-| **Output claim type** | **Select Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress |
-| **Output claim value** | **Pass through input claim value** |
-| **Description** | Pass through "emailaddress" claim from SelfSTS1 as "emailaddress" |
+	| **Rule 2** | **Value** |
+	| ---------- | --------- |
+	| **Claim Issuer** | **Identity Provider** - SelfSTS1 |
+	| **(And) Input claim type** | **Select Type** -  http://selfsts1.com/claims/emailaddress |
+	| **(And) Input claim value** | **Any** |
+	| **Output claim type** | **Select Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress |
+	| **Output claim value** | **Pass through input claim value** |
+	| **Description** | Pass through "emailaddress" claim from SelfSTS1 as "emailaddress" |
   
-| **Rule 3** |  |
-| --- | --- |
-| **Claim Issuer** | **Identity Provider** - SelfSTS1 |
-| **(And) Input claim type** | **Select Type** -  http://selfsts1.com/claims/Group |
-| **(And) Input claim value** | **Enter value** -  Administrators  |
-| **Output claim type** | **Enter Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role |
-| **Output claim value** | **Enter Value** - Gold |
-| **Description** | Map Gold Rule |
+	| **Rule 3** | **Value** |
+	| ---------- | --------- |
+	| **Claim Issuer** | **Identity Provider** - SelfSTS1 |
+	| **(And) Input claim type** | **Select Type** -  http://selfsts1.com/claims/Group |
+	| **(And) Input claim value** | **Enter value** -  Administrators  |
+	| **Output claim type** | **Enter Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role |
+	| **Output claim value** | **Enter Value** - Gold |
+	| **Description** | Map Gold Rule |
 
-| **Rule 4** |   |
-| --- | --- |
-| **Claim Issuer** | **Identity Provider** - SelfSTS1 |
-| **(And) Input claim type** | **Select Type** - http://selfsts1.com/claims/Group |
-| **(And) Input claim value** | **Enter value**  - Users |
-| **Output claim type** | **Enter Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role |
-| **Output claim value** | **Enter Value** - Silver |
-| **Description** | Map Silver Rule |
+	| **Rule 4** | **Value** |
+	| ---------- | --------- |
+	| **Claim Issuer** | **Identity Provider** - SelfSTS1 |
+	| **(And) Input claim type** | **Select Type** - http://selfsts1.com/claims/Group |
+	| **(And) Input claim value** | **Enter value**  - Users |
+	| **Output claim type** | **Enter Type** - http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role |
+	| **Output claim value** | **Enter Value** - Silver |
+	| **Description** | Map Silver Rule |
 
-  > **Note:** **Note:** The first three rules you have added just pass though the name, group and email claims. Rule #3 and #4 map the group claim from SelfSTS1 the business IP to a role claim in ACS: Administrators and Users roles are map to Gold and Silver roles respectively. This is a great way of keeping your application code untainted from organization-specific considerations. Your application is just concerned about if the current user is silver or gold and enforces access rights accordingly. If the business aspects of the partnership changes, and from now on both Users and Administrator roles should now be awarded the Gold role, all you need to do is change rule 4: there is no need to touch the application code.
+	> **Note:** The first three rules you have added just pass though the name, group and email claims. Rule #3 and #4 map the group claim from SelfSTS1 the business IP to a role claim in ACS: Administrators and Users roles are map to Gold and Silver roles respectively. This is a great way of keeping your application code untainted from organization-specific considerations. Your application is just concerned about if the current user is silver or gold and enforces access rights accordingly. If the business aspects of the partnership changes, and from now on both Users and Administrator roles should now be awarded the Gold role, all you need to do is change rule 4: there is no need to touch the application code.
 
+1. In the **Edit Rule Group** page, verify the rules you have just created and click **Save** .
 
-11\. In the **Edit Rule Group** page, verify the rules you have just created and click the **Save** button.
-
-  ![Saving group rules](./images/Saving-group-rules.png?raw=true "Saving group rules")
+	![Saving group rules](./images/Saving-group-rules.png?raw=true "Saving group rules")
  
-  _Saving group rules_
+	_Saving group rules_
 
-12\. You have completed the entire configuration for the SelfSTS1 first business IP in ACS and setup your web site to trust ACS. Now you will verify its behavior by running the SelfSTS1. It's time to verify that everything works as expected. To do this,  execute the SelfSTS.exe file located in **\Source\Assets\SelfSTS1**
+1. You have completed the entire configuration for the SelfSTS1 first business IP in ACS and setup your web site to trust ACS. Now you will verify its behavior by running the SelfSTS1. It's time to verify that everything works as expected. To do this,  execute the SelfSTS.exe file located in **\Source\Assets\SelfSTS1**.
 
-  > **Note:**  In realistic settings, the business IP would expose its STS via ADFS2.0. However that would require quite a lot of infrastructure, including Active Directory and a Windows Server machine on which to turn on the necessary server role. However we want you to be able to experiment with this scenario even if all you have available is a standalone PC. To that purpose this hands-on lab uses SelfSTS, a simple utility which exposes a minimal WS-Federation STS endpoint. SelfSTS is just a Windows Forms application, which does not even require a setup and can run on any system where the WIF runtime is available. SelfSTS can be used as a test STS when developing web sites secured with Windows Identity Foundation. You can find more information in SelfSTS MSDN code page. 
+	> **Note:**  In realistic settings, the business IP would expose its STS via ADFS2.0. However that would require quite a lot of infrastructure, including Active Directory and a Windows Server machine on which to turn on the necessary server role. However we want you to be able to experiment with this scenario even if all you have available is a standalone PC. To that purpose this hands-on lab uses SelfSTS, a simple utility which exposes a minimal WS-Federation STS endpoint. SelfSTS is just a Windows Forms application, which does not even require a setup and can run on any system where the WIF runtime is available. SelfSTS can be used as a test STS when developing web sites secured with Windows Identity Foundation. You can find more information in SelfSTS MSDN code page. 
 
-  > All the tasks you are required to perform on ACS as application developer in order to configure a business IP are precisely the same you would do if instead of SelfSTS you would be using ADFS2.0.
+	> All the tasks you are required to perform on ACS as application developer in order to configure a business IP are precisely the same you would do if instead of SelfSTS you would be using ADFS2.0.
 
-  ![The SelfSTS utility is here used for simulating the first business IP in the scenario](./images/The-SelfSTS-utility-is-here-used-for-simulating-the-first-business-IP-in-the-scenario.png?raw=true "The SelfSTS utility is here used for simulating the first business IP in the scenario")
+	![The SelfSTS utility is here used for simulating the first business IP in the scenario](./images/The-SelfSTS-utility-is-here-used-for-simulating-the-first-business-IP-in-the-scenario.png?raw=true "The SelfSTS utility is here used for simulating the first business IP in the scenario")
  
-  _The SelfSTS utility is here used for simulating the first business IP in the scenario_
+	_The SelfSTS utility is here used for simulating the first business IP in the scenario_
 
-13\. Click the **Start** button:  the SelfSTS endpoint will start listening for requests on the indicated port.
+1. Click **Start**:  the SelfSTS endpoint will start listening for requests on the indicated port.
 
-  ![The SelfSTS is now listening for requests on the specified local port](./images/The-SelfSTS-is-now-listening-for-requests-on-the-specified-local-port.png?raw=true "The SelfSTS is now listening for requests on the specified local port")
+	![The SelfSTS is now listening for requests on the specified local port](./images/The-SelfSTS-is-now-listening-for-requests-on-the-specified-local-port.png?raw=true "The SelfSTS is now listening for requests on the specified local port")
  
-  _The SelfSTS is now listening for requests on the specified local port_
+	_The SelfSTS is now listening for requests on the specified local port_
 
-14\. Back to the browser, click the **Relying Party Applications** link under the **Trust Relationships** section.
+1. Back to the browser, click the **Relying Party Applications** link under the **Trust Relationships** section.
 
-15\. Click on **WebSiteAdvancedACS** Relying Party.
+1. Click on **WebSiteAdvancedACS** Relying Party.
 
-  ![The WebSiteAdvancedACS Relying Party configured in ACS](./images/The-WebSiteAdvancedACS-Relying-Party-configured-in-ACS.png?raw=true "The WebSiteAdvancedACS Relying Party configured in ACS")
-  
-  _The WebSiteAdvancedACS Relying Party configured in ACS_
+	![The WebSiteAdvancedACS Relying Party configured in ACS](./images/The-WebSiteAdvancedACS-Relying-Party-configured-in-ACS.png?raw=true "The WebSiteAdvancedACS Relying Party configured in ACS")
 
-16\. In the **Edit Relying Party Application** page uncheck the **Windows Live ID** option into the Identity providers list, and click **Save**.
+	_The WebSiteAdvancedACS Relying Party configured in ACS_
 
-  ![Removing Windows Live ID Identity Provider](./images/Removing-Windows-Live-ID-Identity-Provider.png?raw=true "Removing Windows Live ID Identity Provider")
+1. In the **Edit Relying Party Application** page uncheck the **Windows Live ID** option into the Identity providers list, and click **Save**.
+
+	![Removing Windows Live ID Identity Provider](./images/Removing-Windows-Live-ID-Identity-Provider.png?raw=true "Removing Windows Live ID Identity Provider")
  
-  _Removing Windows Live ID Identity Provider_
+	_Removing Windows Live ID Identity Provider_
 
-  > **Note:** Windows Live ID is the IP that ACS adds as the initial choice when you create a Relying Party. For development purposes it is a reasonable default, as it is the only IP for which it is certain that the developer has a relationship with (a Windows Live ID account is needed for signing up for ACS labs and creating a Windows Azure namespace). However in this scenario we are only interested in handling identities from two specific business IPs, hence we are deselecting it.
+	> **Note:** Windows Live ID is the IP that ACS adds as the initial choice when you create a Relying Party. For development purposes it is a reasonable default, as it is the only IP for which it is certain that the developer has a relationship with (a Windows Live ID account is needed for signing up for ACS labs and creating a Windows Azure namespace). However in this scenario we are only interested in handling identities from two specific business IPs, hence we are deselecting it.
 
-  > It is interested to notice that if we'd wish to address scenarios in which users can come both from web IPs (Windows Live ID, Facebook, Google, Yahoo) and business IPs ACS would easily handle that.
+	> It is interested to notice that if we'd wish to address scenarios in which users can come both from web IPs (Windows Live ID, Facebook, Google, Yahoo) and business IPs ACS would easily handle that.
 
-17\. Back to Visual Studio, press **F5** to run the Web site.	
+1. Back to Visual Studio, press **F5** to run the Web site.	
 
-18\. The relying party application _(https://localhost/WebSiteAdvancedACS/)_ will redirect to the **Access Control Service** to authenticate.
+1. The relying party application _(https://localhost/WebSiteAdvancedACS/)_ will redirect to the **Access Control Service** to authenticate.
 
-19\. Access Control sent to our application the claims it was expecting and we are now authenticated.
+1. Access Control sent to our application the claims it was expecting and we are now authenticated.
 
-  ![User Authenticated](./images/User-Authenticated.png?raw=true "User Authenticated")
+	![User Authenticated](./images/User-Authenticated.png?raw=true "User Authenticated")
  
-  _User Authenticated_
+	_User Authenticated_
 
-  > **Note:** If you carefully observe the address bar in your browser as it opens the application, you can see the how the entire redirect sequence takes place: first the Web Site, then the STS, and back to the Web site. If you want to see the flow in more details, you can take advantage of utilities such as Fiddler or the Internet Explorer 9 traffic capture utility.
+	> **Note:** If you carefully observe the address bar in your browser as it opens the application, you can see the how the entire redirect sequence takes place: first the Web Site, then the STS, and back to the Web site. If you want to see the flow in more details, you can take advantage of utilities such as Fiddler or the Internet Explorer 9 traffic capture utility.
 
-  > **Note:** In order to keep this hands-on lab simple, we didn't add any code to the Web site which would take advantage of the incoming claims (i.e. giving access to a certain page to gold users but not to others). WIF makes it very easy: if you are interested in learning how to leverage the incoming claims in your application access strategy, please refer to the WIF hands-on labs in this training kit.
+	> **Note:** In order to keep this hands-on lab simple, we didn't add any code to the Web site which would take advantage of the incoming claims (i.e. giving access to a certain page to gold users but not to others). WIF makes it very easy: if you are interested in learning how to leverage the incoming claims in your application access strategy, please refer to the WIF hands-on labs in this training kit.
 
-20\. Close the browser.
+1. Close the browser.
 
- 
- 
+<a name="Ex1Task5"></a>
 #### Task 5 - Use the ACS Management API to Trust a Second Business Identity Provider and Create Claims Mapping Rules. ####
 
 The ACS Management portal is very convenient for managing trust relationships and transformation rules. However, there are scenarios in which an interactive approach is not feasible. For example, you may need to automate the onboarding of a new IP as part of an existing batch process, or change access rules in response to programmatic events. For those cases, ACS offers an exhaustive OData based API which allows you to change all the settings you can work on with the portal, and more. The next task will give you a taste of what you can do with the management API: you will add a second business IP, simulated by another SelfSTS instance, and configure the associated claims transformation rules all via API.
@@ -521,7 +575,7 @@ The ACS Management portal is very convenient for managing trust relationships an
 
 1. On the **Management Service Accounts** section of the **Management Service** page, click the **ManagementClient** link.
 
- 	![Selecting ManagementClient](./images/Selecting-ManagementClient.png?raw=true "Selecting ManagementClient")
+	![Selecting ManagementClient](./images/Selecting-ManagementClient.png?raw=true "Selecting ManagementClient")
  
 	_Selecting ManagementClient_
 
@@ -535,15 +589,15 @@ The ACS Management portal is very convenient for managing trust relationships an
 
 1. Copy the value of the **Password** field into a Notepad, as you will use it in the following steps, and then click **Cancel**.
 
- 	![Copying the management key](./images/Copying-the-management-key.png?raw=true "Copying the management key")
+	![Copying the management key](./images/Copying-the-management-key.png?raw=true "Copying the management key")
  
 	_Copying the management key_
 
 1. Back to Visual Studio, add the **ManagementServiceProject** project. To do this, right-click the **WebSiteAdvancedACS** solution and select **Add | Existing Project**
 
-1. In the**Add Existing Project** dialog, select the **ManagementServiceProject.csproj** file under the **\Source\Assets\ManagementService\** folder for this lab and click **Open**.
+1. In the **Add Existing Project** dialog, select the **ManagementServiceProject.csproj** file under the **\Source\Assets\ManagementService\** folder for this lab and click **Open**.
 
- 	![Adding the ManagementServiceProject](./images/Adding-the-ManagementServiceProject.png?raw=true "Adding the ManagementServiceProject")
+	![Adding the ManagementServiceProject](./images/Adding-the-ManagementServiceProject.png?raw=true "Adding the ManagementServiceProject")
  
 	_Adding the ManagementServiceProject_
 
@@ -557,12 +611,11 @@ The ACS Management portal is very convenient for managing trust relationships an
 	
 	static string serviceNamespace = **"{yourServiceNamespace}"**;
 	static string acsHostName = "accesscontrol.windows.net";
-	
 	````
 
 1. Add a new console application project named **IdentityProviderSetup**. To do this, right-click the **WebSiteAdvancedACS** solution and select **Add | New Project.** Then choose the Console Application template, update the name to **IdentityProviderSetup** and click **OK.**
 
- 	![Creating a new Console Application](./images/Creating-a-new-Console-Application.png?raw=true "Creating a new Console Application")
+	![Creating a new Console Application](./images/Creating-a-new-Console-Application.png?raw=true "Creating a new Console Application")
  
 	_Creating a new Console Application_
 
@@ -570,7 +623,7 @@ The ACS Management portal is very convenient for managing trust relationships an
 
 1. In the **Application** tab, update the **Target Framework** to **.Net Framework 4**. In the **Target Framework change** message dialog, click **Yes** to reload the project.
 
- 	![Updating the project to target .Net Framework 4](./images/Updating-the-project-to-target-.Net-Framework-4.png?raw=true "Updating the project to target .Net Framework 4")
+	![Updating the project to target .Net Framework 4](./images/Updating-the-project-to-target-.Net-Framework-4.png?raw=true "Updating the project to target .Net Framework 4")
  
 	_Updating the project to target .Net Framework 4_
 
@@ -578,7 +631,7 @@ The ACS Management portal is very convenient for managing trust relationships an
 
 1. Add the **SelfSTS.cer** file located in **\Source\Assets\SelfSTS2\** in the folder you just created.
 
- 	![Adding the Certificate for the second Identity Provider](./images/Adding-the-Certificate-for-the-second-Identity-Provider.png?raw=true "Adding the Certificate for the second Identity Provider")
+	![Adding the Certificate for the second Identity Provider](./images/Adding-the-Certificate-for-the-second-Identity-Provider.png?raw=true "Adding the Certificate for the second Identity Provider")
  
 	_Adding the Certificate for the second Identity Provider_
 
@@ -586,7 +639,7 @@ The ACS Management portal is very convenient for managing trust relationships an
 
 1. Right click **Resources\SelfSTS.cer** and on the properties check that **Copy to Output Directory** is **Copy always**.
 
- 	![Configuring copy always on the Certificate file](./images/Configuring-copy-always-on-the-Certificate-file.png?raw=true "Configuring copy always on the Certificate file")
+	![Configuring copy always on the Certificate file](./images/Configuring-copy-always-on-the-Certificate-file.png?raw=true "Configuring copy always on the Certificate file")
  
 	_Configuring copy always on the Certificate file_
 
@@ -594,7 +647,7 @@ The ACS Management portal is very convenient for managing trust relationships an
 
 1. Open **Program.cs** and add the following **bolded** using statements.
 
-	(Code Snippet - ACS  Labs Federation Lab - Ex01 - Task 5 - Using Statements - C#)
+	(Code Snippet - _ACSwithLocalSTS - Ex01 Task5 01 - Using Statements_ - C#)
 
 	````C#
 	using System;
@@ -608,7 +661,7 @@ The ACS Management portal is very convenient for managing trust relationships an
 
 1. Add the following internal class in **Program.cs** file.
 
-	(Code Snippet - ACS  Labs Federation Lab - Ex01 - Task 5 - RuleTypes Class - C#)
+	(Code Snippet - _ACSwithLocalSTS - Ex01 Task5 02- RuleTypes Class_ - C#)
 
 	````C#
 	...
@@ -624,7 +677,7 @@ The ACS Management portal is very convenient for managing trust relationships an
 
 1. To create a new **Identity Provider** add the following method to the **Program.cs** file inside the **Program** class.
 
-	(Code Snippet - ACS  Labs Federation Lab - Ex01 - Task 5 - CreateIdpManually Method - C#)
+	(Code Snippet - _ACSwithLocalSTS - Ex01 Task5 03 - CreateIdpManually Method_ - C#)
 
 	````C#
 	/// <summary>
@@ -734,7 +787,7 @@ labRelyingPartyName);
 
 1. To create new **Rules** to an existing **Rule Group** add the following method inside the **Program** class.
 
-	(Code Snippet - ACS  Labs Federation Lab - Ex01 - Task 5 - AddRulesToRuleGroup Method - C#)
+	(Code Snippet - _ACSwithLocalSTS - Ex01 Task5 04 - AddRulesToRuleGroup Method_ - C#)
 
 	````C#
 	/// <summary>
@@ -825,7 +878,7 @@ ruleGroupName + "'").FirstOrDefault();
 
 1. Now add the following method, which uses the previously created methods to create an Identity Provider with corresponding rules.
 
-	(Code Snippet - ACS  Labs Federation Lab - Ex01 - Task 5 - CreateIdentityProviderWithRules Method - C#)
+	(Code Snippet - _ACSwithLocalSTS - Ex01 Task5 05 - CreateIdentityProviderWithRules Method_ - C#)
 
 	````C#
 	private static void CreateIdentityProviderWithRules()
@@ -849,7 +902,7 @@ CreateIdpManually(DateTime.UtcNow, DateTime.UtcNow.AddYears(1), svc,
 
 1. Finally, change the Main method with the following code.
 
-	(Code Snippet - ACS  Labs Federation Lab - Ex01 - Task 5 - Update Main Method - C#)
+	(Code Snippet - _ACSwithLocalSTS - Ex01 Task5 06 - Update Main Method_ - C#)
 
 	````C#
 	  static void Main(string[] args)
@@ -864,17 +917,17 @@ CreateIdpManually(DateTime.UtcNow, DateTime.UtcNow.AddYears(1), svc,
 
 1. Press **F5** to run the console application. You can see the console and verify that the Identity Provider and the rules were created.
 
- 	![The output on the console of the identity provider and rules creation code](./images/The-output-on-the-console-of-the-identity-provider-and-rules-creation-code.png?raw=true "The output on the console of the identity provider and rules creation code")
+	![The output on the console of the identity provider and rules creation code](./images/The-output-on-the-console-of-the-identity-provider-and-rules-creation-code.png?raw=true "The output on the console of the identity provider and rules creation code")
  
 	_The output on the console of the identity provider and rules creation code_
 
 1. You can also verify that the Identity Provider and the rules were created navigating back to the portal. To do this, in the **Edit Management Service Account** page, click the **Return to Management Service** link.
 
-1. Click **Return to Access Control Service** to go back to the**Access Control Service** page.
+1. Click **Return to Access Control Service** to go back to the **Access Control Service** page.
 
 1. In the **Trust Relationships** section, click the **Identity Providers** link. Note that the SelfSTS2 Identity Provider was created.
 
- 	![SelfSTS2 Identity Provider verification](./images/SelfSTS2-Identity-Provider-verification.png?raw=true "SelfSTS2 Identity Provider verification")
+	![SelfSTS2 Identity Provider verification](./images/SelfSTS2-Identity-Provider-verification.png?raw=true "SelfSTS2 Identity Provider verification")
  
 	_SelfSTS2 Identity Provider verification_
 
@@ -882,13 +935,13 @@ CreateIdpManually(DateTime.UtcNow, DateTime.UtcNow.AddYears(1), svc,
 
 1. To verify that the new SelftSTS2 Identity Provider is working as expected, execute the **SelfSTS.exe** file located in **\Source\Assets\SelfSTS2** folder of this lab.
 
- 	![The second SelfSTS instance represents the second Identity Provider](./images/The-second-SelfSTS-instance-represents-the-second-Identity-Provider.png?raw=true "The second SelfSTS instance represents the second Identity Provider")
+	![The second SelfSTS instance represents the second Identity Provider](./images/The-second-SelfSTS-instance-represents-the-second-Identity-Provider.png?raw=true "The second SelfSTS instance represents the second Identity Provider")
  
 	_The second SelfSTS instance represents the second Identity Provider_
 
-1. Click the **Start** button.
+1. Click **Start**.
 
- 	![The second SelfSTS instance now listening for requests](./images/The-second-SelfSTS-instance-now-listening-for-requests.png?raw=true "The second SelfSTS instance now listening for requests")
+	![The second SelfSTS instance now listening for requests](./images/The-second-SelfSTS-instance-now-listening-for-requests.png?raw=true "The second SelfSTS instance now listening for requests")
  
 	_The second SelfSTS instance now listening for requests_
 
@@ -900,7 +953,7 @@ CreateIdpManually(DateTime.UtcNow, DateTime.UtcNow.AddYears(1), svc,
 
 1. Verify that the new Identity Provider **SelfSTS2** appears in the **Sign In** form (you might need to click on the **Show more options** link).
 
- 	![The ACS HDR default page](./images/The-ACS-HDR-default-page.png?raw=true "The ACS HDR default page")
+	![The ACS HDR default page](./images/The-ACS-HDR-default-page.png?raw=true "The ACS HDR default page")
  
 	_The ACS HDR default page_
 
@@ -914,7 +967,7 @@ CreateIdpManually(DateTime.UtcNow, DateTime.UtcNow.AddYears(1), svc,
 
 1. From the **Visual Studio Toolbox** drag and drop a **Security Token Visualizer Control** at the bottom of the main content control into the **Default.aspx** page:
 
- 	![The Security Token Visualizer Control in Toolbox](./images/The-Security-Token-Visualizer-Control-in-Toolbox.png?raw=true "The Security Token Visualizer Control in Toolbox")
+	![The Security Token Visualizer Control in Toolbox](./images/The-Security-Token-Visualizer-Control-in-Toolbox.png?raw=true "The Security Token Visualizer Control in Toolbox")
  
 	_The Security Token Visualizer Control in Toolbox_
 
@@ -926,8 +979,7 @@ CreateIdpManually(DateTime.UtcNow, DateTime.UtcNow.AddYears(1), svc,
 	<asp:content/>
 	````
 
-	> **Note:** **Note:** In case no code appears when you drop the control on the page, please close Visual Studio, run the Configuration Wizard again and restart Visual Studio.
-
+	> **Note:** In case no code appears when you drop the control on the page, please close Visual Studio, run the Setup Scripts again and restart Visual Studio.
 
 1. Open the **Web.config** file in the https://localhost/WebSiteAdvancedACS/ project  and enable the **saveBootstrapTokens** attribute inside **microsoft.identityModel** section:
 
@@ -943,25 +995,29 @@ CreateIdpManually(DateTime.UtcNow, DateTime.UtcNow.AddYears(1), svc,
 
 1. See the specific claims of the SelfSTS1 Identity Provider.
 
- 	![The Security Token Visualizer Control showing the content of the token coming from the first ](./images/The-Security-Token-Visualizer-Control-showing-the-content-of-the-token-coming-from-the-first-.png?raw=true "The Security Token Visualizer Control showing the content of the token coming from the first ")
+	![The Security Token Visualizer Control showing the content of the token coming from the first ](./images/The-Security-Token-Visualizer-Control-showing-the-content-of-the-token-coming-from-the-first-.png?raw=true "The Security Token Visualizer Control showing the content of the token coming from the first ")
   
- 	_The Security Token Visualizer Control showing the content of the token coming from the first business IP_
+	_The Security Token Visualizer Control showing the content of the token coming from the first business IP_
 1. Close the browser and press **F5** to run the solution again.
 
 1. Choose **SelfSTS2** Identity Provider in order to authenticate into the Website (you might need to click on the **Show more options** link).
 
 1. See the specific claims of the SelfSTS2 IP.
 
- 	![The Security Token Visualizer Control showing the content of the token coming from the ](./images/The-Security-Token-Visualizer-Control-showing-the-content-of-the-token-coming-from-the-.png?raw=true "The Security Token Visualizer Control showing the content of the token coming from the ")
+	![The Security Token Visualizer Control showing the content of the token coming from the ](./images/The-Security-Token-Visualizer-Control-showing-the-content-of-the-token-coming-from-the-.png?raw=true "The Security Token Visualizer Control showing the content of the token coming from the ")
  
- 	_The Security Token Visualizer Control showing the content of the token coming from the second business IP_
+	_The Security Token Visualizer Control showing the content of the token coming from the second business IP_
+
 1. Close the browser.
 
- 
+<a name="Ex1Summary"></a>
 #### Exercise 1: Summary ####
 
 In this exercise you took advantage of ACS for brokering authentication between a Web site and multiple business identity providers: that is a very common scenario, a problem you'd have to solve every time you want to open access for business partners to one application of yours, be it a level of business app or a Software as a Service (SaaS) solution. You had the chance to experience how the presence of ACS in the architecture can simplify the task of establishing trust relationships and keeping your application insulated from changes and differences in how the partners handle user information. ACS can be configured via management portal or via management API: in this hands-on lab you experienced with both approaches.
 
+---
+
+<a name="Summary"></a>
 ## Summary ##
 
 By completing this Hands-On Lab you have learned how to:
@@ -976,6 +1032,6 @@ By completing this Hands-On Lab you have learned how to:
 
 - Use ACS to handle the home realm discovery problem
 
-The Windows Azure Access Control Service is a great service to outsource authentication to, as it can easily abstract away the complexity of dealing with mutiple business identity providers such as directories enhanced by Active Directory Federation Services or equivalent and even web and social providers such as Windows Live Id, Facebook, Google and Yahoo. Furthermore, ACS offers powerful tools for manipulating the way in which the user's identity is processed before reaching your application.
+The Windows Azure Access Control Service is a great service to outsource authentication to, as it can easily abstract away the complexity of dealing with multiple business identity providers such as directories enhanced by Active Directory Federation Services or equivalent and even web and social providers such as Windows Live Id, Facebook, Google and Yahoo. Furthermore, ACS offers powerful tools for manipulating the way in which the user's identity is processed before reaching your application.
 
-This intermediate lab gave you a glimpse of the capabilities of ACS applied to classic business access problems such has onboarding new partners, handling authentication from multiple sources and protecting applications from changes and edge cases. Here we focused on Web sites, but ACS can handle just as well SOAP and REST Web services. We focused on business identity providers, but ACS offers comprehensive support for Web identities via easy to use features which perfectly fit with the agility of Web-based solutions. If you are interested in knowing more about those capabilites, please refer to the introductory hands-on lab. Finally, if you are interested in REST solutions, look out for upcoming new labs exploring the OAuth2 features in ACS.
+This intermediate lab gave you a glimpse of the capabilities of ACS applied to classic business access problems such has onboarding new partners, handling authentication from multiple sources and protecting applications from changes and edge cases. Here we focused on Web sites, but ACS can handle just as well SOAP and REST Web services. We focused on business identity providers, but ACS offers comprehensive support for Web identities via easy to use features which perfectly fit with the agility of Web-based solutions. If you are interested in knowing more about those capabilities, please refer to the introductory hands-on lab. Finally, if you are interested in REST solutions, look out for upcoming new labs exploring the OAuth2 features in ACS.

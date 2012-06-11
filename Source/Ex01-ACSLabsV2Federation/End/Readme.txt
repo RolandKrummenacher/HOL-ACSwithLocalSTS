@@ -7,4 +7,4 @@ To run the end solution of this exercise the following steps are required:
 	-  {yourManagementServiceKey} with the password of your management service.
 3. Add STS Reference to the WebSiteAdvancedACS project. For the Application URI field use the following URL: 'https://localhost/WebSiteAdvancedACS'.
 4. Run an instance of the IdentityProviderSetup project.
-5. Execute and start SelfSTS1 and SelfSTS2	 
+5. Execute and start SelfSTS1 and SelfSTS2

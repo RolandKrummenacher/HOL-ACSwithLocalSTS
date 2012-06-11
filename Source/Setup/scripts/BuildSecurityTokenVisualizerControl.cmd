@@ -17,8 +17,9 @@ echo ========= Installing SecurityTokenVisualizerControl =========
 "%~dp0ToolboxInstaller.exe" uninstall "DPE Identity Samples" "SecurityTokenVisualizerControl"
 "%~dp0ToolboxInstaller.exe" install "DPE Identity Samples" "%~dp0..\..\Assets\SecurityTokenVisualizerControl\Microsoft.Samples.DPE.Identity.Controls\bin\%buildType%\SecurityTokenVisualizerControl.dll"
 
-REM Copy SecurityTokenVisualizerControl.dll to end solutions (ex02 & ex03)
+REM Copy SecurityTokenVisualizerControl.dll to end solutions
 echo.
+md "%~dp0..\..\Ex01-ACSLabsV2Federation\End\WebSiteAdvancedACS\Bin\"
 copy "%~dp0..\..\Assets\SecurityTokenVisualizerControl\Microsoft.Samples.DPE.Identity.Controls\bin\%buildType%\SecurityTokenVisualizerControl.dll" "%~dp0..\..\Ex01-ACSLabsV2Federation\End\WebSiteAdvancedACS\Bin\"
 
 echo.

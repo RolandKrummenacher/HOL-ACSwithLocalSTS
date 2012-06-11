@@ -6,19 +6,11 @@
 
 Hands-On Labs are sets of step-by-step guides that are designed to help you learn how to use key Windows Azure services and features.  Each Lab provides instructions to guide you through the process of developing a complete application.
 
-In this Hands-On Lab, you will learn how to:
+In this intermediate hands-on lab you will learn how to use the Access Control Service for managing trust relationships with multiple business identity providers. You will learn how to use ACS for establishing relationships and normalizing attributes without having to touch your application's source code. The lab will demonstrate how to configure ACS both via the Windows Azure Portal and the management API.
 
-- Use the portal to add business identity providers through their metadata documents
+> **Note:** You can download the latest build of the Windows Azure Training Kit which includes a tested version of this HOL from here: http://bit.ly/WindowsAzureTK.
 
-- Use the portal to establish claims transformation rules for normalizing the user's attributes
-
-- Do all of the above via management API
-
-- Outsource authentication of a web application to ACS
-
-- Use ACS to handle the home realm discovery problem
-
-> **Note:** You can download the latest build of the Windows Azure Training Kit which includes a tested version of this HOL from here: http://www.microsoft.com/download/en/details.aspx?id=8396.
+Visit our [GitHub Homepage](http://windowsazure-trainingkit.github.com/) for more information about the **Windows Azure Training Kit**.
 
 ### Repository Structure ###
 
@@ -38,8 +30,8 @@ In order to run the solutions of the exercises provided by this lab you will fir
 
 ### Contributing to the Repository ###
 
-If you find any issues or opportunties for improving this hands-on lab, fix them!  Feel free to contribute to this project by [forking](http://help.github.com/fork-a-repo/) this repository and make changes to the content.  Once you've made your changes, share them back with the community by sending a pull request. Please see [How to send pull requests](http://help.github.com/send-pull-requests/) for more information about contributing to github projects.
+If you find any issues or opportunties for improving this hands-on lab, fix them! Feel free to contribute to this project by [forking](http://help.github.com/fork-a-repo/) this repository and make changes to the content. Once you've made your changes, share them back with the community by sending a pull request. Please see GitHub section [How to send pull requests](http://help.github.com/send-pull-requests/) and the [Windows Azure Contribution Guidelines](http://windowsazure.github.com/guidelines.html) for more information about contributing to projects.
 
 ### Reporting Issues ###
 
-If you find any issues with this hands-on lab that you can't fix, feel free to report them in the [issues](https://github.com/microsoft-dpe/HOL-BuildingASocialGameWithWindowsAzure/issues) section of this repository.
+If you find any issues with this hands-on lab that you can't fix, feel free to report them in the [issues](https://github.com/WindowsAzure-TrainingKit/HOL-ACSwithLocalSTS/issues) section of this repository.
