@@ -6,19 +6,19 @@
 <a name="Overview"></a>
 ## Overview ##
 
-Connecting one application to its users is one of the most basic requirements of any solution, whether deployed on-premises, in the cloud or on both.
+Connecting a cloud service to its users is one of the most basic requirements of any solution, whether deployed on-premises, in the cloud or on both.
 
-The emergence of standards is helping to break the silos which traditionally isolate accounts stored by different web sites and business entities, however offering application access to users coming from multiple sources can still be a daunting task. As of today, if you want to open your application to users coming from Facebook, Live ID, Google and business directories the brute-force approach demands you to lean and implement four different authentication protocols. Changes in today's world happen fast and often, forcing you to keep updating your protocol implementations to chase the latest evolutions of the authentication mechanisms of the user repositories. All this can require a disproportionate amount of energy, leaving you with fewer resources to focus on your business.
+The emergence of standards is helping to break the silos which traditionally isolate accounts stored by different web sites and business entities, however offering cloud service access to users coming from multiple sources can still be a daunting task. As of today, if you want to open your cloud service to users coming from Facebook, Live ID, Google and business directories the brute-force approach demands you to lean and implement four different authentication protocols. Changes in today's world happen fast and often, forcing you to keep updating your protocol implementations to chase the latest evolutions of the authentication mechanisms of the user repositories. All this can require a disproportionate amount of energy, leaving you with fewer resources to focus on your business.
 
  ![A functional view of the Access Control Service](./images/A-functional-view-of-the-Access-Control-Service.png?raw=true "A functional view of the Access Control Service")
 
 _A functional view of the Access Control Service_
 
-Enter the Windows Azure Access Control Service (ACS). ACS offers you a way to outsource authentication and decouple your application from all the complexity of maintaining a direct relationship with all the identity providers you want to tap from. ACS takes care of engaging every identity provider with its own authentication protocol, normalizing the authentication results in a protocol supported by the .NET framework tooling (namely the Windows Identity Foundation technology, or WIF) regardless of from where the user is coming from. WIF allows you in just few clicks to elect the ACS as the authentication manager for your application; from that moment on ACS takes care of everything, including providing a UI for the user to choose among all the recognized identity providers.
+Enter the Windows Azure Access Control Service (ACS). ACS offers you a way to outsource authentication and decouple your cloud service from all the complexity of maintaining a direct relationship with all the identity providers you want to tap from. ACS takes care of engaging every identity provider with its own authentication protocol, normalizing the authentication results in a protocol supported by the .NET framework tooling (namely the Windows Identity Foundation technology, or WIF) regardless of from where the user is coming from. WIF allows you in just few clicks to elect the ACS as the authentication manager for your cloud service; from that moment on ACS takes care of everything, including providing a UI for the user to choose among all the recognized identity providers.
 
 Furthermore, ACS offers you greater control over which user attributes should be assigned for every authentication event; again in synergy with WIF, those attributes (called claims) can be easily accessed for taking authorization decisions without forcing the developer do understand or even be aware of the lower level mechanisms that the authentication protocols entail.
 
-In this intermediate hands-on lab you will learn how to use the Access Control Service for managing trust relationships with multiple business identity providers. Users from two different organizations will be able to gain authenticated access to your application; however you will not be required to write any special code for handling the differences between the two. You will learn how to use ACS for establishing relationships and normalizing attributes without having to touch your application's source code. The lab will demonstrate how to configure ACS both via the Windows Azure Portal and the management API.
+In this intermediate hands-on lab you will learn how to use the Access Control Service for managing trust relationships with multiple business identity providers. Users from two different organizations will be able to gain authenticated access to your cloud service; however you will not be required to write any special code for handling the differences between the two. You will learn how to use ACS for establishing relationships and normalizing attributes without having to touch your cloud service's source code. The lab will demonstrate how to configure ACS both via the Windows Azure Portal and the management API.
 
 <a name="Objectives"></a>
 ### Objectives ###
@@ -31,7 +31,7 @@ In this Hands-On Lab, you will learn how to:
 
 - Do all of the above via management API
 
-- Outsource authentication of a web application to ACS
+- Outsource authentication of a cloud service to ACS
 
 - Use ACS to handle the home realm discovery problem
 
@@ -251,16 +251,16 @@ In a real-life solution, the business identity providers would expose their auth
  
 	_"Debugger Not Enabled" Alert_
 
-	![Running the Application](./images/Running-the-Application.png?raw=true "Running the Application")
+	![Running the Service](./images/Running-the-Application.png?raw=true "Running the Service")
  
-	_Running the Application_
+	_Running the Service_
 
 1. Close the browser.
 
 <a name="Ex1Task2"></a>
-#### Task 2 - Configure one entry for the application in the Access Control Service with the Windows Azure Portal ####
+#### Task 2 - Configure one entry for the cloud service in the Access Control Service with the Windows Azure Portal ####
 
-Before being able to use ACS for offloading authentication, you need to let ACS know about your application. You can easily do this by working on your Windows Azure namespace via management portal.
+Before being able to use ACS for offloading authentication, you need to let ACS know about your cloud service. You can easily do this by working on your Windows Azure namespace via management portal.
 
 1. Navigate to [https://manage.windowsazure.com/](https://manage.windowsazure.com/). You will be prompted for your Microsoft account credentials if you are not already signed in. 
 
@@ -286,9 +286,9 @@ Before being able to use ACS for offloading authentication, you need to let ACS 
  
 	_Access Control Service Management Portal_
 
-	> **Note:** The Management Portal offers you a global view of all the settings you can change in ACS. In this task we want to add a new application: in identity jargon, you use the expression "Relying Party" for referring to an application.
+	> **Note:** The Management Portal offers you a global view of all the settings you can change in ACS. In this task we want to add a new cloud service: in identity jargon, you use the expression "Relying Party" for referring to an cloud service.
 
-1. Click the **Relying Party Applications** link on the navigation menu in order to register your Web site with ACS. "Relying Party" is identity speak for application, the entity which consumes identities, whereas as you already guessed "Identity Provider" indicates one entity which stores identities and is capable of authenticating users.
+1. Click the **Relying Party Applications** link on the navigation menu in order to register your Web site with ACS. "Relying Party" is identity speak for cloud service, the entity which consumes identities, whereas as you already guessed "Identity Provider" indicates one entity which stores identities and is capable of authenticating users.
 
 	![Identity Providers configured](./images/Identity-Providers-configured.png?raw=true "Identity Providers configured")
 
@@ -310,7 +310,7 @@ Before being able to use ACS for offloading authentication, you need to let ACS 
 	-**Token signing:** Use service namespace certificate (standard)
 
 
-	> **Note:** Those values describe everything ACS needs to know for handling authentication for your application. We'll get in more details later: here we will just say that upon successful authentication ACS sends back to the application a security token  (an artifact such as an XML fragment, a piece of binary or json code, anything as long as it is digitally signed) as proof that successful authentication actually took place. In order to do so, ACS needs to know the address of the application to which the token should be returned to, the desired characteristics of the token it has to create, and so on. 
+	> **Note:** Those values describe everything ACS needs to know for handling authentication for your cloud service. We'll get in more details later: here we will just say that upon successful authentication ACS sends back to the cloud service a security token  (an artifact such as an XML fragment, a piece of binary or json code, anything as long as it is digitally signed) as proof that successful authentication actually took place. In order to do so, ACS needs to know the address of the cloud service to which the token should be returned to, the desired characteristics of the token it has to create, and so on. 
 
 
 	In this lab we will give you the instructions for getting the scenario up and running, but we will not go in great details about the underlying security mechanisms and protocols. If you want to know more about what happens behind the scenes, please refer to the presentations and videos section of the training kit.
@@ -323,7 +323,7 @@ Before being able to use ACS for offloading authentication, you need to let ACS 
 
 1. Click **Save**.
 
-1. Under the **Development** section of the navigation menu, click the **Application Integration** link. Here there are various URIs that come in handy when configuring your application to take advantage of ACS.
+1. Under the **Development** section of the navigation menu, click the **Application Integration** link. Here there are various URIs that come in handy when configuring your cloud service to take advantage of ACS.
 
 1. Go to **Endpoint Reference** section and copy the value for **WS-Federation Metadata**. You will discover what that is and what it is used for right at the beginning of the next step.
 
@@ -334,9 +334,9 @@ Before being able to use ACS for offloading authentication, you need to let ACS 
 <a name="Ex1Task3"></a>
 #### Task 3 - Configuring a Website to Accept Tokens from Access Control Service ####
 
-For a web application, outsourcing authentication ACS means forwarding every request from unauthenticated users to ACS. ACS will do something for making authentication happen (details below), and as we have seen above the result will be a security token. All those redirects are usually done according to specific protocols, which are platform and vendor-independent.
+For a cloud service, outsourcing authentication ACS means forwarding every request from unauthenticated users to ACS. ACS will do something for making authentication happen (details below), and as we have seen above the result will be a security token. All those redirects are usually done according to specific protocols, which are platform and vendor-independent.
 
-ACS can emit different token types on various protocols. For Web sites, the default protocol is WS-Federation. There's no need to go in the fine details: suffice to say that WS-Federation is a protocol that is natively understood by Windows Identity Foundation (WIF), an extension to the .NET framework that allows you to easily outsource application authentication to tokens sources such as the ACS itself. In particular, WIF extends Visual Studio with a wizard which can automatically configure your application to outsource authentication without requiring you to write a single line of code. All it needs is the address of a machine-readable description of the token source to be used: in our case, that description is the WS-Federation Metadata address you saved at the end of Task 3. In identity parlance, a service which emits security token is called a Security Token Service (STS).
+ACS can emit different token types on various protocols. For Web sites, the default protocol is WS-Federation. There's no need to go in the fine details: suffice to say that WS-Federation is a protocol that is natively understood by Windows Identity Foundation (WIF), an extension to the .NET framework that allows you to easily outsource cloud service authentication to tokens sources such as the ACS itself. In particular, WIF extends Visual Studio with a wizard which can automatically configure your cloud service to outsource authentication without requiring you to write a single line of code. All it needs is the address of a machine-readable description of the token source to be used: in our case, that description is the WS-Federation Metadata address you saved at the end of Task 3. In identity parlance, a service which emits security token is called a Security Token Service (STS).
 
 In this task you will use the WIF wizard to outsource authentication to ACS.
 
@@ -374,22 +374,22 @@ In this task you will use the WIF wizard to outsource authentication to ACS.
  
 		_Offered Claims_
 
-		> **Note:** The WS-Federation Metadata can contain descriptions of the claims that the endpoint offers. The wizard shows those to you so that you will know what information about incoming users you will be able to process in your application. In this case ACS declares that it can release information about which identity provider was actually used for authentication and a user identifier.
+		> **Note:** The WS-Federation Metadata can contain descriptions of the claims that the endpoint offers. The wizard shows those to you so that you will know what information about incoming users you will be able to process in your cloud service. In this case ACS declares that it can release information about which identity provider was actually used for authentication and a user identifier.
 
 	1. On the **Summary** page review the changes that will be made and click **Finish**.
 
 <a name="Ex1Task4"></a>
 #### Task 4 - Use the ACS Management Portal to Trust a Business Identity Provider and Process User Attributes via Claims Mapping Rules ####
 
-![ACS does not directly authenticate users, but it brokers authentication between your application and ](./images/ACS-does-not-directly-authenticate-users,-but-it-brokers-authentication-between-your-application-and-.png?raw=true "ACS does not directly authenticate users, but it brokers authentication between your application and ")
+![ACS does not directly authenticate users, but it brokers authentication between your cloud service and ](./images/ACS-does-not-directly-authenticate-users,-but-it-brokers-authentication-between-your-application-and-.png?raw=true "ACS does not directly authenticate users, but it brokers authentication between your cloud service and ")
  
-_ACS does not directly authenticate users, but it brokers authentication between your application and multiple providers. The picture shows a simplified authentication flow, which will be described in the following tasks_
+_ACS does not directly authenticate users, but it brokers authentication between your cloud service and multiple providers. The picture shows a simplified authentication flow, which will be described in the following tasks_
 
-ACS does not directly authenticate users: in the most common cases it does not maintain credentials such as username and password, but it rather brokers authentication between your application and other providers. Let's say that you are developing an inventory application for your warehouse, and two partner companies need to have access to it in order to sell your goods. You want the employees of those two partners to have authenticated access to your application, but you don't want to manage their identities. Here's where ACS comes to the rescue: assuming that those companies expose their own STSs as well, ACS will simply take care to redirect unauthenticated requests to one or the other, process the resulting token and send back a new authentication token to your application. That way, users never have to disclose their credentials outside of their own infrastructure and you never have to manage credentials you don't own. Organizations which expose via STS their capability of authenticating users are called Identity Providers (IP for short).
+ACS does not directly authenticate users: in the most common cases it does not maintain credentials such as username and password, but it rather brokers authentication between your cloud service and other providers. Let's say that you are developing an inventory cloud service for your warehouse, and two partner companies need to have access to it in order to sell your goods. You want the employees of those two partners to have authenticated access to your cloud service, but you don't want to manage their identities. Here's where ACS comes to the rescue: assuming that those companies expose their own STSs as well, ACS will simply take care to redirect unauthenticated requests to one or the other, process the resulting token and send back a new authentication token to your cloud service. That way, users never have to disclose their credentials outside of their own infrastructure and you never have to manage credentials you don't own. Organizations which expose via STS their capability of authenticating users are called Identity Providers (IP for short).
 
 In this task you will use the portal for configuring ACS to accept users from the first of two identity providers.
 
-1. Back to the browser, click the **Identity Providers** link in the **Trust Relationships** section of the menu. The main area of the management portal will display a page which helps you to manage the identity providers from where your application users will come from.
+1. Back to the browser, click the **Identity Providers** link in the **Trust Relationships** section of the menu. The main area of the management portal will display a page which helps you to manage the identity providers from where your cloud service users will come from.
 
 	![Identity Providers](./images/Identity-Providers.png?raw=true "Identity Providers")
 
@@ -403,9 +403,9 @@ In this task you will use the portal for configuring ACS to accept users from th
 
 	> **Note:** ACS is able to broker authentication with many different types of identity providers. Web IPs such as Windows Live ID, Google, Yahoo and Facebook are all services available on the public internet, defined by the address of their STS (or equivalent), the set of attributes (claims) they share about their users and the authentication protocol they use.
 
-	> Business IPs, conversely, behaves in a slightly different way. Every company will have its own STS address, will share different claims about their users, and so on. In ACS you can add multiple business IPs: one of the advantages of ACS is exactly that it can help you to manage many trust relationship without burdening your application code.
+	> Business IPs, conversely, behaves in a slightly different way. Every company will have its own STS address, will share different claims about their users, and so on. In ACS you can add multiple business IPs: one of the advantages of ACS is exactly that it can help you to manage many trust relationship without burdening your cloud service code.
 
-	> As of today, the protocol that ACS uses for handing business IPs for web applications is WS-Federation. On the Windows platform the standard way of exposing an STS is using Active Directory Federation Services 2.0, which is why the "Add" button for adding a business IP is labeled as in Figure 22. However any WS-Federation STS should work, even from non-Windows platform (WS-Federation is an open, vendor-independent standard).
+	> As of today, the protocol that ACS uses for handing business IPs for cloud services is WS-Federation. On the Windows platform the standard way of exposing an STS is using Active Directory Federation Services 2.0, which is why the "Add" button for adding a business IP is labeled as in Figure 22. However any WS-Federation STS should work, even from non-Windows platform (WS-Federation is an open, vendor-independent standard).
 
 1. Complete the form with the following information: 
 
@@ -431,19 +431,19 @@ In this task you will use the portal for configuring ACS to accept users from th
  
 	_Filling information about the first business IP in the ACS portal_
 
-	> **Note:** The form you just filled is the functional equivalent of the wizard you ran on your application back on task 3, this time applied to ACS. The wizard configured the application to redirect unauthenticated requests to the ACS and accept the resulting tokens as proof of authentication; this form is configuring ACS to redirect unauthenticated requests to the first business IP and accept the tokens it emits as authentication proofs.
+	> **Note:** The form you just filled is the functional equivalent of the wizard you ran on your cloud service back on task 3, this time applied to ACS. The wizard configured the cloud service to redirect unauthenticated requests to the ACS and accept the resulting tokens as proof of authentication; this form is configuring ACS to redirect unauthenticated requests to the first business IP and accept the tokens it emits as authentication proofs.
 
 	> Below you will learn more details about the STS we are using for simulating business IPs in this lab.
 
 1. Click **Save**.
 
-1. In the **Trust Relationships** section of the navigation menu, click the **Rule Groups** link in order to select the default rule group for your application.
+1. In the **Trust Relationships** section of the navigation menu, click the **Rule Groups** link in order to select the default rule group for your cloud service.
 
 	![The current rule groups list contains just the default rule group ](./images/The-current-rule-groups-list-contains-just-the-default-rule-group-.png?raw=true "The current rule groups list contains just the default rule group ")
  
 	_The current rule groups list contains just the default rule group_
 
-	> **Note**: A very important aspect of security tokens is that they contain claims, attributes describing the authenticated user as asserted by the originating STS. The claims, which can be pretty much anything about the user (name, email, group memberships, privileges, spending limits and so on), provide key information which drive the authentication and authorization process.  ACS provides a rule engine which can process the claims received in the incoming token, and include the resulting transformed claims in the token sent back to the application. Often the claims in the output token will be simple pass-through of the values received from the IP, but in many cases ACS will perform important transformations such as assigning application-specific roles to the incoming user on the basis of, for example, their group memberships in their originating organization. In the steps below you will learn how to set up some simple transformation rules.
+	> **Note**: A very important aspect of security tokens is that they contain claims, attributes describing the authenticated user as asserted by the originating STS. The claims, which can be pretty much anything about the user (name, email, group memberships, privileges, spending limits and so on), provide key information which drive the authentication and authorization process.  ACS provides a rule engine which can process the claims received in the incoming token, and include the resulting transformed claims in the token sent back to the cloud service. Often the claims in the output token will be simple pass-through of the values received from the IP, but in many cases ACS will perform important transformations such as assigning cloud service-specific roles to the incoming user on the basis of, for example, their group memberships in their originating organization. In the steps below you will learn how to set up some simple transformation rules.
 
 1. Click **Default Rule Group for** **WebsiteAdvacedACS**.
 
@@ -508,7 +508,7 @@ In this task you will use the portal for configuring ACS to accept users from th
 	| **Output claim value** | **Enter Value** - Silver |
 	| **Description** | Map Silver Rule |
 
-	> **Note:** The first three rules you have added just pass though the name, group and email claims. Rule #3 and #4 map the group claim from SelfSTS1 the business IP to a role claim in ACS: Administrators and Users roles are map to Gold and Silver roles respectively. This is a great way of keeping your application code untainted from organization-specific considerations. Your application is just concerned about if the current user is silver or gold and enforces access rights accordingly. If the business aspects of the partnership changes, and from now on both Users and Administrator roles should now be awarded the Gold role, all you need to do is change rule 4: there is no need to touch the application code.
+	> **Note:** The first three rules you have added just pass though the name, group and email claims. Rule #3 and #4 map the group claim from SelfSTS1 the business IP to a role claim in ACS: Administrators and Users roles are map to Gold and Silver roles respectively. This is a great way of keeping your cloud service code untainted from organization-specific considerations. Your cloud service is just concerned about if the current user is silver or gold and enforces access rights accordingly. If the business aspects of the partnership changes, and from now on both Users and Administrator roles should now be awarded the Gold role, all you need to do is change rule 4: there is no need to touch the cloud service code.
 
 1. In the **Edit Rule Group** page, verify the rules you have just created and click **Save** .
 
@@ -552,17 +552,17 @@ In this task you will use the portal for configuring ACS to accept users from th
 
 1. Back to Visual Studio, press **F5** to run the Web site.	
 
-1. The relying party application _(https://localhost/WebSiteAdvancedACS/)_ will redirect to the **Access Control Service** to authenticate.
+1. The relying party cloud service _(https://localhost/WebSiteAdvancedACS/)_ will redirect to the **Access Control Service** to authenticate.
 
-1. Access Control sent to our application the claims it was expecting and we are now authenticated.
+1. Access Control sent to our cloud service the claims it was expecting and we are now authenticated.
 
 	![User Authenticated](./images/User-Authenticated.png?raw=true "User Authenticated")
  
 	_User Authenticated_
 
-	> **Note:** If you carefully observe the address bar in your browser as it opens the application, you can see the how the entire redirect sequence takes place: first the Web Site, then the STS, and back to the Web site. If you want to see the flow in more details, you can take advantage of utilities such as Fiddler or the Internet Explorer 9 traffic capture utility.
+	> **Note:** If you carefully observe the address bar in your browser as it opens the cloud service, you can see the how the entire redirect sequence takes place: first the Web Site, then the STS, and back to the Web site. If you want to see the flow in more details, you can take advantage of utilities such as Fiddler or the Internet Explorer 9 traffic capture utility.
 
-	> **Note:** In order to keep this hands-on lab simple, we didn't add any code to the Web site which would take advantage of the incoming claims (i.e. giving access to a certain page to gold users but not to others). WIF makes it very easy: if you are interested in learning how to leverage the incoming claims in your application access strategy, please refer to the WIF hands-on labs in this training kit.
+	> **Note:** In order to keep this hands-on lab simple, we didn't add any code to the Web site which would take advantage of the incoming claims (i.e. giving access to a certain page to gold users but not to others). WIF makes it very easy: if you are interested in learning how to leverage the incoming claims in your cloud service access strategy, please refer to the WIF hands-on labs in this training kit.
 
 1. Close the browser.
 
@@ -872,9 +872,9 @@ ruleGroupName + "'").FirstOrDefault();
 
 	> **Note:** Once again, it seems a lot of code but in fact it is roughly proportional to the data we are providing.
 
-	> If you observe the code above, you will notice that the claim types emitted by the second business identity provider are different: in this specific case, they are in Italian language. This is a typical case in which, without an intermediary such as ACS to decouple your application from the identity providers, you'd have to write specific code in order to accommodate the differences between how different partners manage and represent their users' information.
+	> If you observe the code above, you will notice that the claim types emitted by the second business identity provider are different: in this specific case, they are in Italian language. This is a typical case in which, without an intermediary such as ACS to decouple your cloud service from the identity providers, you'd have to write specific code in order to accommodate the differences between how different partners manage and represent their users' information.
 
-	> Using ACS allows you to write rules that will process the incoming claims, extract the information you need and create a normalized token which has consistent format regardless of the original data it was created from. Your application just needs to care about if the current user is gold or silver, and needn't worry about the difference between "Amministratori" and "Administrators".
+	> Using ACS allows you to write rules that will process the incoming claims, extract the information you need and create a normalized token which has consistent format regardless of the original data it was created from. Your cloud service just needs to care about if the current user is gold or silver, and needn't worry about the difference between "Amministratori" and "Administrators".
 
 1. Now add the following method, which uses the previously created methods to create an Identity Provider with corresponding rules.
 
@@ -959,7 +959,7 @@ CreateIdpManually(DateTime.UtcNow, DateTime.UtcNow.AddYears(1), svc,
 
 	> **Note:** When we had only one business IP configured in ACS, the authentication phase took place transparently if you exclude some changes in the address bar. Now we have two possible IPs to which we can redirect the user for authenticating, and at this point we have no clue which ACS could use to decide whether to redirect with one or the other.  The problem of taking this decision is known as the Home Realm Discovery problem, or HRD, and it arises almost every time there are multiple choices of identity providers. ACS offers various tools to address HDR. The one you can see in Figure 47 is the most direct, in which ACS automatically generates a page with as many buttons as there are configured IPs. Another approach consists of prompting the user for their email address, and using the domain part of it for establishing which IP is the user from (see Figure 24). The advantage of the second approach is that it does not reveal upfront the identity of the IP on the page.
 
-	> Both approaches can be mixed and matched, and ACS can even provide the HDR information programmatically so that you can build your own chrome for the HDR, for example if you want to maintain a consistent look & feel with the rest of your application.
+	> Both approaches can be mixed and matched, and ACS can even provide the HDR information programmatically so that you can build your own chrome for the HDR, for example if you want to maintain a consistent look & feel with the rest of your cloud service.
 
 1. Close the browser.
 
@@ -989,7 +989,7 @@ CreateIdpManually(DateTime.UtcNow, DateTime.UtcNow.AddYears(1), svc,
 	    <audienceUris>
 	````
 
-1. Press **F5** to start debugging the web application.
+1. Press **F5** to start debugging the cloud service.
 
 1. In the **Sign in** page, choose **SelfSTS1** Identity Provider in order to authenticate into the Website (you might need to click on the **Show more options** link).
 
@@ -1013,7 +1013,7 @@ CreateIdpManually(DateTime.UtcNow, DateTime.UtcNow.AddYears(1), svc,
 <a name="Ex1Summary"></a>
 #### Exercise 1: Summary ####
 
-In this exercise you took advantage of ACS for brokering authentication between a Web site and multiple business identity providers: that is a very common scenario, a problem you'd have to solve every time you want to open access for business partners to one application of yours, be it a level of business app or a Software as a Service (SaaS) solution. You had the chance to experience how the presence of ACS in the architecture can simplify the task of establishing trust relationships and keeping your application insulated from changes and differences in how the partners handle user information. ACS can be configured via management portal or via management API: in this hands-on lab you experienced with both approaches.
+In this exercise you took advantage of ACS for brokering authentication between a Web site and multiple business identity providers: that is a very common scenario, a problem you'd have to solve every time you want to open access for business partners to one cloud service of yours, be it a level of business app or a Software as a Service (SaaS) solution. You had the chance to experience how the presence of ACS in the architecture can simplify the task of establishing trust relationships and keeping your cloud service insulated from changes and differences in how the partners handle user information. ACS can be configured via management portal or via management API: in this hands-on lab you experienced with both approaches.
 
 ---
 
@@ -1028,10 +1028,10 @@ By completing this Hands-On Lab you have learned how to:
 
 - Do all of the above via management API
 
-- Outsource authentication of a web application to ACS
+- Outsource authentication of a cloud service to ACS
 
 - Use ACS to handle the home realm discovery problem
 
-The Windows Azure Access Control Service is a great service to outsource authentication to, as it can easily abstract away the complexity of dealing with multiple business identity providers such as directories enhanced by Active Directory Federation Services or equivalent and even web and social providers such as Windows Live Id, Facebook, Google and Yahoo. Furthermore, ACS offers powerful tools for manipulating the way in which the user's identity is processed before reaching your application.
+The Windows Azure Access Control Service is a great service to outsource authentication to, as it can easily abstract away the complexity of dealing with multiple business identity providers such as directories enhanced by Active Directory Federation Services or equivalent and even web and social providers such as Windows Live Id, Facebook, Google and Yahoo. Furthermore, ACS offers powerful tools for manipulating the way in which the user's identity is processed before reaching your cloud service.
 
-This intermediate lab gave you a glimpse of the capabilities of ACS applied to classic business access problems such has onboarding new partners, handling authentication from multiple sources and protecting applications from changes and edge cases. Here we focused on Web sites, but ACS can handle just as well SOAP and REST Web services. We focused on business identity providers, but ACS offers comprehensive support for Web identities via easy to use features which perfectly fit with the agility of Web-based solutions. If you are interested in knowing more about those capabilities, please refer to the introductory hands-on lab. Finally, if you are interested in REST solutions, look out for upcoming new labs exploring the OAuth2 features in ACS.
+This intermediate lab gave you a glimpse of the capabilities of ACS applied to classic business access problems such has onboarding new partners, handling authentication from multiple sources and protecting cloud services from changes and edge cases. Here we focused on Web sites, but ACS can handle just as well SOAP and REST Web services. We focused on business identity providers, but ACS offers comprehensive support for Web identities via easy to use features which perfectly fit with the agility of Web-based solutions. If you are interested in knowing more about those capabilities, please refer to the introductory hands-on lab. Finally, if you are interested in REST solutions, look out for upcoming new labs exploring the OAuth2 features in ACS.
