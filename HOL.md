@@ -664,15 +664,11 @@ The ACS Management portal is very convenient for managing trust relationships an
 	(Code Snippet - _ACSwithLocalSTS - Ex01 Task5 02- RuleTypes Class_ - C#)
 
 	````C#
-	...
-	class Program
+	internal class RuleTypes
 	{
-	 internal class RuleTypes
-	 {
-	   public const string Simple = "Simple";
-	   public const string Passthrough = "Passthrough";
-	 }
-	...
+	  public const string Simple = "Simple";
+	  public const string Passthrough = "Passthrough";
+	}
 	````
 
 1. To create a new **Identity Provider** add the following method to the **Program.cs** file inside the **Program** class.
@@ -725,7 +721,7 @@ idp.DisplayName).FirstOrDefault();
 	    // Add the new IP to ACS
 	    svc0.AddObject("IdentityProviders", idp);
 	
-	    //Console.WriteLine("Info: Identity Provider created: {0}", idp.Name);
+	    // Console.WriteLine("Info: Identity Provider created: {0}", idp.Name);
 	    Console.WriteLine("Info: Identity Provider created: {0}", idp.DisplayName);
 	
 	    // Identity provider public key to verify the signature
@@ -762,7 +758,7 @@ idpKeyDisplayName);
 	
 	    string labRelyingPartyName = "WebSiteAdvancedACS";
 	
-	    //Relying Party related to the Identity Provider
+	    // Relying Party related to the Identity Provider
 	    foreach (var existingRelyingParty in svc0.RelyingParties)
 	    {
 	        var rpid = new RelyingPartyIdentityProvider
@@ -804,8 +800,9 @@ ruleGroupName + "'").FirstOrDefault();
 	
 	    Rule namePassthroughRule = new Rule()
 	    {
-	        Issuer = issuer, IssuerId = issuer.Id, //InputClaimIssuerId = issuer.Id,
-	                
+	        Issuer = issuer, IssuerId = issuer.Id,
+	        
+	        //InputClaimIssuerId = issuer.Id,
 	        InputClaimType = 
 "http://www.theselfsts2.net/claims/nome",
 	        OutputClaimType = 
@@ -814,6 +811,7 @@ ruleGroupName + "'").FirstOrDefault();
 	        //RuleType = RuleTypes.Passthrough,                
 	        Description = "Passthrough \"nome\" claim from SelfSTS2 as \"name\""
 	    };
+	    
 	    svc.AddRelatedObject(rg, "Rules", namePassthroughRule);
 	
 	    Rule emailPassthroughRule = new Rule()
@@ -824,6 +822,7 @@ ruleGroupName + "'").FirstOrDefault();
 	        RuleGroup = rg,                
 	        Description = "Passthrough \"postaelettronica\" claim from SelfSTS2 as \"emailaddress\""
 	    };
+	    
 	    svc.AddRelatedObject(rg, "Rules", emailPassthroughRule);
 	
 	    Rule goldenRule = new Rule()
@@ -837,6 +836,7 @@ ruleGroupName + "'").FirstOrDefault();
 	        RuleGroup = rg,                
 	        Description = "Map Gold Role SelfSTS2"
 	    };
+	    
 	    svc.AddRelatedObject(rg, "Rules", goldenRule);
 	
 	    Rule silverRule = new Rule()
@@ -850,6 +850,7 @@ ruleGroupName + "'").FirstOrDefault();
 	        RuleGroup = rg,                
 	        Description = "Map Silver Role SelfSTS2"
 	    };
+	    
 	    svc.AddRelatedObject(rg, "Rules", silverRule);
 	
 	    svc.SaveChanges(SaveChangesOptions.Batch);
@@ -905,7 +906,7 @@ CreateIdpManually(DateTime.UtcNow, DateTime.UtcNow.AddYears(1), svc,
 	(Code Snippet - _ACSwithLocalSTS - Ex01 Task5 06 - Update Main Method_ - C#)
 
 	````C#
-	  static void Main(string[] args)
+	  public static void Main(string[] args)
 	  {
 	       CreateIdentityProviderWithRules();
 	
