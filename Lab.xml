@@ -18,6 +18,6 @@
   <Source>.\Source</Source>
   <DependencyChecker>.\Source\Setup\Dependencies.depi</DependencyChecker>
   <CustomProperties>
-	<Property Name="GithHubRepository" Value="https://github.com/WindowsAzure-TrainingKit/HOL-ACSwithLocalSTS" />
+	<Property Name="GitHubRepository" Value="https://github.com/WindowsAzure-TrainingKit/HOL-ACSwithLocalSTS" />
   </CustomProperties> 
 </Lab> 
