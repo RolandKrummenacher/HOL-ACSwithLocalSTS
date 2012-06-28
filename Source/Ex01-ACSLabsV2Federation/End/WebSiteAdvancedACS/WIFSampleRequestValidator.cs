@@ -14,7 +14,6 @@
 // places, or events is intended or should be inferred.
 // ----------------------------------------------------------------------------------
 
-
 //-----------------------------------------------------------------------------
 //
 // THIS CODE AND INFORMATION IS PROVIDED 'AS IS' WITHOUT WARRANTY OF
@@ -26,11 +25,9 @@
 //
 //
 //-----------------------------------------------------------------------------
-
 using System;
 using System.Web;
 using System.Web.Util;
-
 using Microsoft.IdentityModel.Protocols.WSFederation;
 
 /// <summary>
@@ -39,24 +36,22 @@ using Microsoft.IdentityModel.Protocols.WSFederation;
 /// in the form post. The SignInResponse message contents are verified later by
 /// the WSFederationPassiveAuthenticationModule or the WIF signin controls.
 /// </summary>
-
 public class SampleRequestValidator : RequestValidator
 {
-    protected override bool IsValidRequestString( HttpContext context, string value, RequestValidationSource requestValidationSource, string collectionKey, out int validationFailureIndex )
+    protected override bool IsValidRequestString(HttpContext context, string value, RequestValidationSource requestValidationSource, string collectionKey, out int validationFailureIndex)
     {
         validationFailureIndex = 0;
 
-        if ( requestValidationSource == RequestValidationSource.Form && collectionKey.Equals( WSFederationConstants.Parameters.Result, StringComparison.Ordinal ) )
+        if (requestValidationSource == RequestValidationSource.Form && collectionKey.Equals(WSFederationConstants.Parameters.Result, StringComparison.Ordinal))
         {
-            SignInResponseMessage message = WSFederationMessage.CreateFromFormPost( context.Request ) as SignInResponseMessage;
+            SignInResponseMessage message = WSFederationMessage.CreateFromFormPost(context.Request) as SignInResponseMessage;
 
-            if ( message != null )
+            if (message != null)
             {
                 return true;
             }
         }
 
-        return base.IsValidRequestString( context, value, requestValidationSource, collectionKey, out validationFailureIndex );
+        return base.IsValidRequestString(context, value, requestValidationSource, collectionKey, out validationFailureIndex);
     }
-
 }

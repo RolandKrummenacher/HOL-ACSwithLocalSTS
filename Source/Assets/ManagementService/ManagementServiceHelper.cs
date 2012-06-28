@@ -47,13 +47,13 @@ namespace ACS.Management
     /// </summary>
     public class ManagementServiceHelper
     {
-        static string serviceIdentityUsernameForManagement = "ManagementClient";
-        static string serviceIdentityPasswordForManagement = "{yourManagementServiceKey}";
+        private static string serviceIdentityUsernameForManagement = "ManagementClient";
+        private static string serviceIdentityPasswordForManagement = "{yourManagementServiceKey}";
 
-        static string serviceNamespace = "{yourServiceNamespace}";
-        static string acsHostName = "accesscontrol.windows.net";
+        private static string serviceNamespace = "{yourServiceNamespace}";
+        private static string acsHostName = "accesscontrol.windows.net";
 
-        static string cachedSwtToken;
+        private static string cachedSwtToken;
  
         /// <summary>
         /// Creates and returns a ManagementService object. This is the only 'interface' used by other classes.
@@ -78,20 +78,6 @@ namespace ACS.Management
         }
 
         /// <summary>
-        /// Helper function for the event handler above, adding the SWT token to the HTTP 'Authorization' header. 
-        /// The SWT token is cached so that we don't need to obtain a token on every request.
-        /// </summary>
-        private static void GetTokenWithWritePermission(HttpWebRequest args)
-        {
-            if (cachedSwtToken == null)
-            {
-                cachedSwtToken = GetTokenFromACS();
-            }
-
-            args.Headers.Add(HttpRequestHeader.Authorization, "WRAP access_token=\"" + HttpUtility.UrlDecode(cachedSwtToken) + "\"");
-        }
-
-        /// <summary>
         /// Helper function for the event handler above, adding the SWT token to the HTTP 'Authorization' header (Via WebClient). 
         /// The SWT token is cached so that we don't need to obtain a token on every request.
         /// </summary>
@@ -106,31 +92,46 @@ namespace ACS.Management
         }
 
         /// <summary>
+        /// Helper function for the event handler above, adding the SWT token to the HTTP 'Authorization' header. 
+        /// The SWT token is cached so that we don't need to obtain a token on every request.
+        /// </summary>
+        private static void GetTokenWithWritePermission(HttpWebRequest args)
+        {
+            if (cachedSwtToken == null)
+            {
+                cachedSwtToken = GetTokenFromACS();
+            }
+
+            args.Headers.Add(HttpRequestHeader.Authorization, "WRAP access_token=\"" + HttpUtility.UrlDecode(cachedSwtToken) + "\"");
+        }
+
+        /// <summary>
         /// Obtains a SWT token from ACSv2. 
         /// </summary>
         private static string GetTokenFromACS()
         {
             // request a token from ACS
-            WebClient client = new WebClient();
-            client.BaseAddress = string.Format("https://{0}.{1}", serviceNamespace, acsHostName);
+            using (var client = new WebClient())
+            {
+                client.BaseAddress = string.Format("https://{0}.{1}", serviceNamespace, acsHostName);
 
-            NameValueCollection values = new NameValueCollection();
-            values.Add("wrap_name", serviceIdentityUsernameForManagement);
-            values.Add("wrap_password", serviceIdentityPasswordForManagement);
+                NameValueCollection values = new NameValueCollection();
+                values.Add("wrap_name", serviceIdentityUsernameForManagement);
+                values.Add("wrap_password", serviceIdentityPasswordForManagement);
 
-            // The scope is 'mgmt' instead of 'mgmt/service'
-            values.Add("wrap_scope", string.Format("https://{0}.{1}/v2/mgmt/service", serviceNamespace, acsHostName));
+                // The scope is 'mgmt' instead of 'mgmt/service'
+                values.Add("wrap_scope", string.Format("https://{0}.{1}/v2/mgmt/service", serviceNamespace, acsHostName));
 
-            byte[] responseBytes = client.UploadValues("WRAPv0.9/", "POST", values);
+                byte[] responseBytes = client.UploadValues("WRAPv0.9/", "POST", values);
 
-            string response = Encoding.UTF8.GetString(responseBytes);
+                string response = Encoding.UTF8.GetString(responseBytes);
 
-            // Extract the SWT token and return it.
-            return response
-                .Split('&')
-                .Single(value => value.StartsWith("wrap_access_token=", StringComparison.OrdinalIgnoreCase))
-                .Split('=')[1];
+                // Extract the SWT token and return it.
+                return response
+                    .Split('&')
+                    .Single(value => value.StartsWith("wrap_access_token=", StringComparison.OrdinalIgnoreCase))
+                    .Split('=')[1];
+            }
         }
     }
 }
-

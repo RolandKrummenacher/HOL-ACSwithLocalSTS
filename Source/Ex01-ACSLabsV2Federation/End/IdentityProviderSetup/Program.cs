@@ -25,12 +25,13 @@ using Common.ACS.Management;
 
 namespace IdentityProviderSetup
 {
-    class Program
+    public class Program
     {
-        internal class RuleTypes
+        public static void Main(string[] args)
         {
-            public const string Simple = "Simple";
-            public const string Passthrough = "Passthrough";
+            CreateIdentityProviderWithRules();
+
+            Console.ReadLine();
         }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace IdentityProviderSetup
             // Add the new IP to ACS
             svc0.AddObject("IdentityProviders", idp);
 
-            //Console.WriteLine("Info: Identity Provider created: {0}", idp.Name);
+            // Console.WriteLine("Info: Identity Provider created: {0}", idp.Name);
             Console.WriteLine("Info: Identity Provider created: {0}", idp.DisplayName);
 
             // Identity provider public key to verify the signature
@@ -111,7 +112,7 @@ namespace IdentityProviderSetup
 
             string labRelyingPartyName = "WebSiteAdvancedACS";
 
-            //Relying Party related to the Identity Provider
+            // Relying Party related to the Identity Provider
             foreach (var existingRelyingParty in svc0.RelyingParties)
             {
                 var rpid = new RelyingPartyIdentityProvider
@@ -123,6 +124,7 @@ namespace IdentityProviderSetup
                 idp.RelyingPartyIdentityProviders.Add(rpid);
                 svc0.AddToRelyingPartyIdentityProviders(rpid);
             }
+
             svc0.SaveChanges(SaveChangesOptions.Batch);
 
             Console.WriteLine("Info: Relying Party added to Identity Provider: {0}", labRelyingPartyName);
@@ -144,13 +146,15 @@ namespace IdentityProviderSetup
             Rule namePassthroughRule = new Rule()
             {
                 Issuer = issuer,
-                IssuerId = issuer.Id, //InputClaimIssuerId = issuer.Id,
+                IssuerId = issuer.Id,
 
+                // InputClaimIssuerId = issuer.Id,
                 InputClaimType = "http://www.theselfsts2.net/claims/nome",
                 OutputClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
                 RuleGroup = rg,
                 Description = "Passthrough \"nome\" claim from SelfSTS2 as \"name\""
             };
+
             svc.AddRelatedObject(rg, "Rules", namePassthroughRule);
 
             Rule emailPassthroughRule = new Rule()
@@ -162,6 +166,7 @@ namespace IdentityProviderSetup
                 RuleGroup = rg,
                 Description = "Passthrough \"postaelettronica\" claim from SelfSTS2 as \"emailaddress\""
             };
+
             svc.AddRelatedObject(rg, "Rules", emailPassthroughRule);
 
             Rule goldenRule = new Rule()
@@ -175,6 +180,7 @@ namespace IdentityProviderSetup
                 RuleGroup = rg,
                 Description = "Map Gold Role SelfSTS2"
             };
+
             svc.AddRelatedObject(rg, "Rules", goldenRule);
 
             Rule silverRule = new Rule()
@@ -188,6 +194,7 @@ namespace IdentityProviderSetup
                 RuleGroup = rg,
                 Description = "Map Silver Role SelfSTS2"
             };
+
             svc.AddRelatedObject(rg, "Rules", silverRule);
 
             svc.SaveChanges(SaveChangesOptions.Batch);
@@ -209,22 +216,20 @@ namespace IdentityProviderSetup
         {
             ManagementService svc = ManagementServiceHelper.CreateManagementServiceClient();
 
-            //Create Identity Provider
+            // Create Identity Provider
             var issuer = CreateIdpManually(DateTime.UtcNow, DateTime.UtcNow.AddYears(1), svc, "SelfSTS2", "SelfSTS2", "http://localhost:9000/STS/Issue/", "IdentityTKStsCertForSigning");
 
-            //Add the Rules
+            // Add the Rules
             string ruleGroupname = "Default Rule Group for WebSiteAdvancedACS";
             AddRulesToRuleGroup(ruleGroupname, issuer.Name);
 
             Console.WriteLine("Done!");
         }
-        
-        static void Main(string[] args)
+
+        internal class RuleTypes
         {
-            CreateIdentityProviderWithRules();
-
-            Console.ReadLine();
-
+            public const string Simple = "Simple";
+            public const string Passthrough = "Passthrough";
         }
     }
 }
