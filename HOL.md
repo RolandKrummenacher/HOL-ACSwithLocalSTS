@@ -73,7 +73,7 @@ In order to execute the exercises in this hands-on lab you need to set up your e
 
 >The procedure installs a self-signed certificate to enable the SSL binding. If you already have a certificate with subject name CN=localhost, you must back up the certificate and restore after completing the steps in this guide.
 
-<a name="CodeSnippets"> 
+<a name="CodeSnippets" /> 
 ### Using the Code Snippets ###
 
 Throughout the lab document, you will be instructed to insert code blocks. For your convenience, most of that code is provided as Visual Studio Code Snippets, which you can use from within Visual Studio 2010 to avoid having to add it manually.
